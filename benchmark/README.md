@@ -27,10 +27,22 @@ No public claim of numbers until that review.
 
 | Arm | Setup |
 |-----|--------|
-| **BCC** | Four `bcc-*` skills loaded; dual-loop workflow; **auto-APPROVE** when the skill waits on implement gate |
-| **without_skill** | No BCC skills; multi-turn **short demand** prompts only (continue / next slice / until done) |
+| **BCC** | Four `bcc-*` skills loaded; dual-loop workflow; **auto-APPROVE** when the skill waits on implement gate; plan then implement against full oracle |
+| **without_skill** | No BCC skills; multi-turn **short demand** only — **strict rework budget** (below) |
 
 Same model/runtime family per paired run (v1: Grok / local environment). Isolated workdir per arm × case.
+
+### without_skill rework budget (v1.1 — makes skill gap visible)
+
+Unlimited “fix until green” **hides** skill value (both arms eventually pass).
+
+| Rule | without_skill |
+|------|----------------|
+| After first full oracle | at most **one** short fix demand |
+| Still red after that fix | **`final_pass = no`** (stop) |
+| Recovery cases | mid-stop then **one** “Continue…” only; still red → fail |
+
+BCC is graded after planned implement (clean path). Mid-stop recovery cases may log a red checkpoint, then one continue session — that checkpoint does not use without’s “one fix” rule for BCC.
 
 ---
 

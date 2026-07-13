@@ -52,3 +52,23 @@ def test_export_sorted(tmp_path: Path) -> None:
     s.export_json(out)
     data = json.loads(out.read_text(encoding="utf-8"))
     assert [d["sku"] for d in data] == ["a", "m"]
+
+
+def test_export_empty(tmp_path: Path) -> None:
+    s = Store(tmp_path / "stock.json")
+    out = tmp_path / "empty.json"
+    s.export_json(out)
+    assert json.loads(out.read_text(encoding="utf-8")) == []
+
+
+def test_add_overwrites_same_sku(tmp_path: Path) -> None:
+    s = Store(tmp_path / "stock.json")
+    s.add("a1", "Apple", 1)
+    s.add("a1", "AppleX", 9)
+    assert s.get("a1") == {"sku": "a1", "name": "AppleX", "qty": 9}
+
+
+def test_remove_missing(tmp_path: Path) -> None:
+    s = Store(tmp_path / "stock.json")
+    with pytest.raises(ValueError):
+        s.remove("nope")

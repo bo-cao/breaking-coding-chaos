@@ -54,3 +54,15 @@ def test_debug_synonyms() -> None:
             {"host": "h", "port": 1, "debug": raw, "features": "a"}
         )
         assert v2["debug"] is expected
+
+
+def test_missing_host_raises() -> None:
+    with pytest.raises((KeyError, ValueError)):
+        migrate_v1_to_v2({"port": "1", "debug": "yes", "features": "a"})
+
+
+def test_features_whitespace_only() -> None:
+    v2 = migrate_v1_to_v2(
+        {"host": "h", "port": "2", "debug": "no", "features": "  ,  , "}
+    )
+    assert v2["features"] == []

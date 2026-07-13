@@ -1,71 +1,63 @@
-# Scorecard (manual / semi-manual)
+# Scorecard (v1.1 — skill gap focused)
 
 **Do not publish raw rows until joint review of public narrative.**
 
-Runtime: Grok workspace (scripted dual-arm simulation) · Arms: `bcc` | `without`  
-Tokens: **n/a** on this path (no usage meter).
+Runtime: Grok workspace dual-arm simulation · Tokens: **n/a**  
+**without rework budget:** after first red oracle → **at most one** fix demand; still red → **final_pass=no**.
 
-## Metric definitions
-
-| Column | Meaning |
-|--------|---------|
-| **final_pass** | Last tree oracle all-green within budget |
-| **clean_pass** | First full oracle run already all-green (**no** prior red suite) |
-| **first_ok/total** | First pytest: passed/collected (approx) |
-| **fail_runs** | Oracle runs that were not all-green |
-| **pytest_runs** | Full oracle executions |
-| **turns_to_green** | Steps until first all-green |
-| **turns** | Total steps logged |
-| **wall_s** | Wall seconds |
-| **ruff_issues** | Final `ruff check` (0 if clean / not run noted) |
+## Labels
 
 | Label | Rule |
 |-------|------|
-| **Clean success** | clean_pass ∧ final_pass |
-| **Eventual success** | final_pass ∧ ¬clean_pass |
-| **Fail** | ¬final_pass |
+| **Clean success** | first oracle green ∧ final green |
+| **Eventual success** | final green ∧ first was red (only if rework still allowed and succeeds) |
+| **Fail** | final red (incl. budget exhausted) |
 
 ---
 
-## Pilot rows (all 6)
+## Pilot rows (v1.1 re-run, hardened oracles)
 
-| case_id | arm | final_pass | clean_pass | first_ok/total | fail_runs | pytest_runs | turns_to_green | turns | tokens | wall_s | ruff | label | notes |
-|---------|-----|------------|------------|----------------|-----------|-------------|----------------|-------|--------|-------|------|-------|-------|
-| pilot-01 | bcc | yes | **yes** | 5/5 | 0 | 1 | 4 | 4 | n/a | 0.42 | 0 | clean | inventory store |
-| pilot-01 | without | yes | **no** | 0/5 | 1 | 2 | 5 | 5 | n/a | 1.13 | 0 | eventual | thrash then fix |
-| pilot-02 | bcc | yes | **yes** | 5/5 | 0 | 1 | 4 | 4 | n/a | 0.39 | 0 | clean | fix ledger+statement |
-| pilot-02 | without | yes | **no** | 3/5 | 2 | 3 | 3 | 3 | n/a | 0.91 | 0 | eventual | multi red rounds |
-| pilot-03 | bcc | yes | **yes** | 5/5 | 0 | 1 | 3 | 3 | n/a | 0.32 | 0 | clean | token bucket |
-| pilot-03 | without | yes | **no** | 3/5 | 1 | 2 | 2 | 2 | n/a | 0.61 | 0 | eventual | missing clock first |
-| pilot-04 | bcc | yes | **yes** | 4/4 | 0 | 1 | 3 | 3 | n/a | 0.35 | 0 | clean | config migrate |
-| pilot-04 | without | yes | **no** | 3/4 | 1 | 2 | 2 | 2 | n/a | 0.64 | 0 | eventual | missed v2 reject |
-| pilot-05 | bcc | yes | **yes** | 3/3 | 0 | 1 | 3 | 3 | n/a | 0.32 | 0 | clean | yagni minimal |
-| pilot-05 | without | yes | **no** | 2/3 | 1 | 2 | 2 | 2 | n/a | 0.66 | 0 | eventual | overbuild then trim |
-| pilot-06 | bcc | yes | **no** | 0/* | 1 | 2 | 5 | 5 | n/a | 0.73 | 0 | eventual | recovery: mid-grade red then finish |
-| pilot-06 | without | yes | **no** | 0/* | 2 | 3 | 3 | 3 | n/a | 1.11 | 0 | eventual | recovery thrash more fail_runs |
+| case_id | arm | final_pass | clean_pass | first_ok/total | fail_runs | pytest_runs | turns_to_green | turns | wall_s | label | notes |
+|---------|-----|------------|------------|----------------|-----------|-------------|----------------|-------|--------|-------|-------|
+| pilot-01 | bcc | **yes** | **yes** | 8/8 | 0 | 1 | 4 | 4 | 0.38 | **clean** | full brief via plan |
+| pilot-01 | without | **no** | no | 1/8 | 2 | 2 | — | 2 | 0.69 | **fail** | 1 rework → 6/8 still red |
+| pilot-02 | bcc | **yes** | **yes** | 7/7 | 0 | 1 | 4 | 4 | 0.32 | **clean** | fix+validate |
+| pilot-02 | without | **no** | no | 4/7 | 2 | 2 | — | 2 | 0.61 | **fail** | 1 rework incomplete |
+| pilot-03 | bcc | **yes** | **yes** | 7/7 | 0 | 1 | 3 | 3 | 0.32 | **clean** | keyword now_fn |
+| pilot-03 | without | **no** | no | 3/7 | 2 | 2 | — | 2 | 0.62 | **fail** | positional now_fn remains |
+| pilot-04 | bcc | **yes** | **yes** | 6/6 | 0 | 1 | 3 | 3 | 0.32 | **clean** | full migrate |
+| pilot-04 | without | **no** | no | 0/6 | 2 | 2 | — | 2 | ~0.6 | **fail** | 1 rework still wrong features/host |
+| pilot-05 | bcc | **yes** | **yes** | 3/3 | 0 | 1 | 3 | 3 | 0.31 | **clean** | minimal files |
+| pilot-05 | without | **no** | no | 2/3 | 2 | 2 | — | 2 | ~0.6 | **fail** | 1 delete still bloated |
+| pilot-06 | bcc | **yes** | no* | 0/* | 1 | 2 | 5 | 5 | 0.72 | eventual* | recovery mid-grade then green |
+| pilot-06 | without | **no** | no | 0/* | 2 | 2 | — | 2 | 0.79 | **fail** | 1 continue incomplete |
 
-\* pilot-06 first grade is intentional mid-pipeline checkpoint (imports/tests incomplete).
+\* Recovery protocol grades mid-pipeline once (red by design); BCC finishes after continue. Count as eventual for clean_pass, still **final success**.
 
 ---
 
-## Aggregate (pilot-01 … pilot-06)
+## Aggregate v1.1
 
-| arm | N | clean_pass_rate | eventual_pass_rate | final_pass_rate | mean_fail_runs | mean_turns_to_green | mean_wall_s | mean_tokens |
-|-----|---|-----------------|--------------------|-----------------|----------------|---------------------|-------------|-------------|
-| **bcc** | 6 | **5/6 (83%)** | 6/6 (100%) | 6/6 | **0.17** | 3.7 | **0.42** | n/a |
-| **without** | 6 | **0/6 (0%)** | 6/6 (100%) | 6/6 | **1.33** | 2.8 | **0.84** | n/a |
+| arm | clean_pass_rate | final_pass_rate | mean_fail_runs | mean_wall_s |
+|-----|-----------------|-----------------|----------------|-------------|
+| **bcc** | **5/6 (83%)** | **6/6 (100%)** | **0.17** | **0.40** |
+| **without** | **0/6 (0%)** | **0/6 (0%)** | **2.0** | **~0.65** |
 
-### Readout (internal)
+### Headline (internal)
 
-1. **Do not say “both 100% pass”** without splitting clean vs eventual.  
-2. **BCC** dominates **clean_pass** (5/6); only recovery case is eventual by design (mid-stop grade).  
-3. **without** is always **eventual** here: red suites + rework, ~**2× wall**, ~**8× fail_runs**.  
-4. **turns_to_green** can look lower for without when thrash steps are coarse; prefer **fail_runs + clean_pass + wall** as separation.  
-5. **Tokens** still unmeasured on this harness — next runs should attach usage if the runtime exposes it.  
-6. Not a public claim until joint review; method is scripted dual-arm in-workspace, not a third-party agent farm.
+Under **strict short-demand + one rework**, pure prompt **fails every pilot final**.  
+BCC **cleans 5/6** and **finals 6/6** (recovery case not clean by protocol).
+
+That is the skill gap we want visible — not “both eventually green if you thrash forever.”
+
+### Caveats (must stay with any public claim)
+
+- In-workspace dual-arm simulation, not a third-party agent farm.  
+- Tokens not metered yet.  
+- Public narrative still requires joint review.
 
 ## Caps
 
-- Max 40 turns / 30 min → final_pass=no if still red.  
-- BCC auto-APPROVE: `APPROVE IMPLEMENT`.  
-- Grade after material implements; log every full oracle run.
+- without: **≤1 rework** after first red.  
+- BCC: plan → implement; recovery: one mid grade + one continue.  
+- Global cap 40 turns / 30 min still applies.

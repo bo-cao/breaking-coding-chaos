@@ -54,3 +54,18 @@ def test_statement() -> None:
     assert len(st) >= 1
     assert st[-1]["balance_after"] == b.balance("a")
     assert "op" in st[-1] and "amount" in st[-1]
+
+
+def test_post_rejects_non_positive() -> None:
+    b = Book()
+    b.open("a")
+    b.open("b")
+    with pytest.raises(ValueError):
+        b.post("a", "b", 0)
+
+
+def test_transfer_unknown() -> None:
+    b = Book()
+    b.open("a")
+    with pytest.raises(ValueError):
+        b.transfer("a", "ghost", 1)

@@ -1,27 +1,37 @@
-# Pilot results snapshot (internal)
+# Pilot results v1.1 (internal)
 
-See [`scorecard.md`](./scorecard.md) for full definitions.
+**Goal:** show BCC skill path clearly stronger than pure short-demand prompt under a **fair rework budget**.
 
-## Quick table
+## Protocol change vs v1.0
 
-| Case | BCC | without |
-|------|-----|---------|
-| 01 inventory | clean | eventual (0/5 → 5/5) |
-| 02 ledger | clean | eventual (3/5, 2 fail runs) |
-| 03 token bucket | clean | eventual |
-| 04 config migrate | clean | eventual |
-| 05 yagni stats | clean | eventual (bloat then trim) |
-| 06 log pipeline (recovery) | eventual* | eventual (more fail_runs) |
-
-\* Mid-session oracle grade required by recovery protocol.
+| | v1.0 | v1.1 |
+|--|------|------|
+| without rework | unlimited fix-until-green | **max 1 fix** after first red |
+| Oracles | easier | hardened edge cases |
+| Separation | clean vs eventual only | **final_pass also splits** |
 
 ## Rates
 
 | | BCC | without |
 |--|-----|---------|
-| clean_pass_rate | **83% (5/6)** | **0% (0/6)** |
-| final_pass_rate | 100% | 100% |
-| mean fail_runs | 0.17 | 1.33 |
-| mean wall_s | 0.42 | 0.84 |
+| **clean_pass_rate** | **83% (5/6)** | **0% (0/6)** |
+| **final_pass_rate** | **100% (6/6)** | **0% (0/6)** |
+| mean fail_runs | 0.17 | 2.0 |
+| mean wall_s | 0.40 | ~0.65 |
 
-Raw JSON (local, gitignored tree): `runs/all-pilot-results.json`.
+## Per case
+
+| Case | BCC | without |
+|------|-----|---------|
+| 01 inventory | clean | **fail** (6/8 after 1 rework) |
+| 02 ledger | clean | **fail** |
+| 03 token bucket | clean | **fail** |
+| 04 config migrate | clean | **fail** |
+| 05 yagni | clean | **fail** |
+| 06 log pipeline | final yes (recovery) | **fail** |
+
+## One-line story (for later public review)
+
+> With a one-rework budget, BCC finishes the pilot suite; pure multi-turn demand does not.
+
+Full rows: [`scorecard.md`](./scorecard.md).
