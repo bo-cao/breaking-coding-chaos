@@ -1,28 +1,24 @@
 # Refresh star-history SVGs from real GitHub stargazer timestamps.
 #
-# GitHub (2026) restricts the stargazers list API to repo admins/collaborators.
-# The default Actions GITHUB_TOKEN gets HTTP 403 on that endpoint, so a
-# personal access token is required for chart generation.
+# Default Actions GITHUB_TOKEN cannot list stargazers (HTTP 403 after 2026).
+# You must add a PAT as repository secret STAR_HISTORY_TOKEN.
 #
-# Setup (one-time, as repo owner):
-#   1. Create a fine-grained PAT:
-#      https://github.com/settings/personal-access-tokens/new
-#      - Resource owner: you (bo-cao)
-#      - Repository access: only this repo
-#      - Permissions → Repository → Metadata: Read-only
-#   2. Repo → Settings → Secrets and variables → Actions
-#      → New repository secret
-#      Name:  STAR_HISTORY_TOKEN
-#      Value: the PAT
-#   3. Actions → Star History → Run workflow
+# Setup (repo owner, one-time):
+#   Classic PAT: https://github.com/settings/tokens/new  → scope public_repo
+#   Or fine-grained: this repo only, Metadata: Read-only
+#   Repo → Settings → Secrets and variables → Actions
+#     Name: STAR_HISTORY_TOKEN  Value: <PAT>
+#   Then: Actions → Star History → Run workflow (branch master)
+#
+# A green check with 0 chart commits means the job skipped (no stars / no token),
+# not that the README image was regenerated.
 name: Star History
 
 on:
   schedule:
     - cron: "0 0 * * *"
   workflow_dispatch:
-  watch:
-    types: [started]
+  # Do NOT use `watch` — every star re-runs the job; without a PAT it fails red.
 
 permissions:
   contents: write
@@ -44,7 +40,6 @@ jobs:
 
       - name: Resolve token for stargazers
         id: auth
-        if: steps.stars.outputs.count != '0'
         env:
           STAR_HISTORY_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
         run: |
@@ -54,8 +49,14 @@ jobs:
           else
             echo "has_token=false" >> "$GITHUB_OUTPUT"
             echo "::warning::STAR_HISTORY_TOKEN secret is not set. Skipping chart update."
-            echo "Create a fine-grained PAT (Metadata: Read-only) and add it as STAR_HISTORY_TOKEN."
           fi
+
+      - name: Skip reason
+        if: steps.stars.outputs.count == '0' || steps.auth.outputs.has_token != 'true'
+        run: |
+          echo "Job will succeed without changing assets."
+          echo "stars=${{ steps.stars.outputs.count }} has_token=${{ steps.auth.outputs.has_token }}"
+          echo "README chart is only updated when stars>0 AND STAR_HISTORY_TOKEN is set."
 
       - name: Generate charts
         if: steps.stars.outputs.count != '0' && steps.auth.outputs.has_token == 'true'
@@ -63,7 +64,6 @@ jobs:
           GH_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
         run: |
           set -e
-          # Prove the token can read stargazers before generating
           gh api -H "Accept: application/vnd.github.star+json" \
             "repos/${{ github.repository }}/stargazers" --jq 'length' >/dev/null
 
@@ -99,6 +99,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/star-history-light.svg assets/star-history-dark.svg
-          git diff --staged --quiet && echo "No chart changes" && exit 0
+          if git diff --staged --quiet; then
+            echo "SVG unchanged — no commit (README will look the same)."
+            exit 0
+          fi
           git commit -m "chore: refresh star history chart"
           git push
+          echo "Pushed new chart SVGs. Hard-refresh the repo page (Ctrl+F5)."
