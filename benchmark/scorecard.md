@@ -6,8 +6,8 @@ Runtime: Grok / local · Arms: `bcc` | `without` · Pass = oracle all-green.
 
 | case_id | arm | pass | tokens | wall_s | turns | ruff_issues | notes |
 |---------|-----|------|--------|--------|-------|-------------|-------|
-| pilot-01 | bcc | | | | | | |
-| pilot-01 | without | | | | | | |
+| pilot-01 | bcc | yes | n/a | 0.42 | 4 | 0 | throughline+PLAN+clean-cut; pytest 5/5; runs/pilot-01/bcc |
+| pilot-01 | without | yes | n/a | 1.13 | 5 | 0 | multi-turn thrash then fix; first pytest 0/5; final 5/5; runs/pilot-01/without |
 | pilot-02 | bcc | | | | | | |
 | pilot-02 | without | | | | | | |
 | pilot-03 | bcc | | | | | | |
