@@ -321,9 +321,9 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
 <p align="center">
   <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date&theme=dark" />
-      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
-      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
+      <source media="(prefers-color-scheme: dark)" srcset="./assets/star-history-dark.svg" />
+      <source media="(prefers-color-scheme: light)" srcset="./assets/star-history-light.svg" />
+      <img alt="Star History Chart" src="./assets/star-history-light.svg" width="100%" />
     </picture>
   </a>
 </p>
