@@ -209,7 +209,7 @@ cp -R skills/bcc-breaking-coding-chaos \
 3. 試 `/bcc-throughline` 或 `/bcc-breaking-coding-chaos`。
 
 完整說明：[claude.md](../docs/install/claude.md)。  
-倉庫公開後：`npx skills add JC/breaking-coding-chaos -y`。
+`npx skills add bo-cao/breaking-coding-chaos -y`。
 
 ### Codex（主）
 
@@ -319,19 +319,24 @@ Codex 主路徑：`~/.codex/skills/`。共享 agents 路徑（常一併掃描）
 </p>
 
 <p align="center">
-  <img src="../assets/star-history.svg" alt="Star trajectory (illustrative until the repo is public)" width="100%" />
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-dark.svg" />
+      <img alt="Star History Chart" src="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-light.svg" width="100%" />
+    </picture>
+  </a>
 </p>
 
 <p align="center">
-  <sub>此曲線為倉庫內<strong>靜態示意</strong>——非即時 GitHub 資料。公開後 star 由 GitHub 記錄；即時數字見下方連結。</sub>
+  <sub>圖表由真實 GitHub stargazer 資料生成（每日 CI）。倉庫 0 star 時曲線為空/水平是正常現象。</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/JC/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/JC/breaking-coding-chaos/stargazers">Stargazers</a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#JC/breaking-coding-chaos&Date">Live curve</a>
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">Interactive</a>
 </p>
 
 ---

@@ -209,7 +209,7 @@ User scope is `~/.claude/skills/<name>/SKILL.md`.
 3. Try `/bcc-throughline` or `/bcc-breaking-coding-chaos`.
 
 Full guide: [docs/install/claude.md](./docs/install/claude.md).  
-When the repo is public: `npx skills add JC/breaking-coding-chaos -y`.
+`npx skills add bo-cao/breaking-coding-chaos -y`
 
 ### Codex (primary)
 
@@ -319,19 +319,24 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
 </p>
 
 <p align="center">
-  <img src="./assets/star-history.svg" alt="Star trajectory (illustrative until the repo is public)" width="100%" />
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-dark.svg" />
+      <img alt="Star History Chart" src="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-light.svg" width="100%" />
+    </picture>
+  </a>
 </p>
 
 <p align="center">
-  <sub>This curve is a <strong>static illustration</strong> in the repo — not live GitHub data. After you publish, stars are recorded by GitHub; use the links below for real numbers.</sub>
+  <sub>Chart is generated from real GitHub stargazer data (daily CI). Empty / flat while the repo has 0 stars — that is expected.</sub>
 </p>
 
 <p align="center">
-  <a href="https://github.com/JC/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/JC/breaking-coding-chaos/stargazers">Stargazers</a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#JC/breaking-coding-chaos&Date">Live curve</a>
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">Interactive</a>
 </p>
 
 ---
