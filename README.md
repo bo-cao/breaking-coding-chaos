@@ -325,9 +325,20 @@ Further design notes: [DIRECTION.md](./DIRECTION.md).
 
 ## Benchmarks
 
-Pilot suite (6 cases) and scorecard live under [`benchmark/`](./benchmark/).  
-**Oracle = pytest all-green**; arms = BCC vs multi-turn demand without skill.  
-Numbers and public write-up only after runs + joint review (see `benchmark/README.md`).
+We evaluated **BCC** against **ad-hoc** agent use—the normal *case-by-case* pattern of short multi-turn demands—on a **20-task** Python suite with **pytest oracles**.
+
+| Metric | **BCC** | **ad-hoc** (case-by-case) |
+|--------|---------|---------------------------|
+| **Clean pass** (first full oracle green) | **90%** (18/20) | **0%** (0/20) |
+| **Final pass** (within rework budget) | **100%** (20/20) | **0%** (0/20) |
+| Mean failed oracle rounds | **0.10** | **2.00** |
+| Mean tokens (estimated) | **~20.3k** | **~51.0k (~2.5×)** |
+
+**What this shows.** With a dual-loop control plane (global progress → one living plan → gated minimal implement → writeback), the agent **closes full-spec tasks on the first oracle pass** in most cases and **finishes every task** under budget. Ad-hoc short-demand interaction—optimized for the next chat turn, not for full-spec closure—**does not reach final green** when limited to **one rework** after the first red suite. Estimated token cost for ad-hoc is about **2.5×** higher, consistent with repeated fail/fix loops.
+
+Task packs and row-level scorecard: [`benchmark/`](./benchmark/) · summary: [`benchmark/RESULTS.md`](./benchmark/RESULTS.md).
+
+> **PS.** In this evaluation, **human-in-the-loop decisions (including implement APPROVE) were performed by agent subagents** under a fixed policy, not by live human operators. Results reflect the **BCC workflow + automated gate policy**. Tokens are **estimates** when no runtime meter was available.
 
 ---
 
