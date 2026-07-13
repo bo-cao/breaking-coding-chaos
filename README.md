@@ -178,86 +178,67 @@ The agent owns grilling, artifacts, review, cut after APPROVE, and writeback.
 Exactly **four** skills (no more):  
 `bcc-breaking-coding-chaos` · `bcc-throughline` · `bcc-plan-spar` · `bcc-clean-cut`
 
-Primary guides: **Claude Code** and **Codex**. Other agents are secondary below.
+### One-line install (recommended)
 
-### Claude Code (primary)
-
-**1. User skills** (global, recommended):
+Open [Agent Skills](https://agentskills.io) CLI — one command for Claude Code, Codex, Cursor, OpenCode, Hermes, OpenClaw, and more:
 
 ```bash
-# from this repo root — macOS / Linux
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.claude/skills/
+npx skills add bo-cao/breaking-coding-chaos -g -y
 ```
 
-```powershell
-# Windows
-.\install.ps1 -Dest "$env:USERPROFILE\.claude\skills"
-```
-
-**2. Or project skills** (team / repo-local) under `.claude/skills/<name>/SKILL.md` — same four folders.
-
-User scope is `~/.claude/skills/<name>/SKILL.md`.
-
-**3. Use it**
-
-1. Open a **new** Claude Code session (skills re-index on start).  
-2. Type `/` — confirm the four `bcc-*` entries.  
-3. Try `/bcc-throughline` or `/bcc-breaking-coding-chaos`.
-
-Full guide: [docs/install/claude.md](./docs/install/claude.md).  
-`npx skills add bo-cao/breaking-coding-chaos -y`
-
-### Codex (primary)
-
-Codex is **opt-in** (keeps the global skills list lean).
+Pin to the agents you use:
 
 ```bash
-# from this repo root — macOS / Linux
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.codex/skills/
-
-# many Codex setups also read:
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.agents/skills/
+npx skills add bo-cao/breaking-coding-chaos -g -y \
+  -a claude-code -a codex -a cursor -a opencode -a hermes-agent -a openclaw
 ```
 
-```powershell
-# Windows
-.\install.ps1 -Dest "$env:USERPROFILE\.codex\skills"
-.\install.ps1 -Dest "$env:USERPROFILE\.agents\skills"
+Then **new session** in each agent → confirm only the four `bcc-*` names.
+
+### Claude Code (official plugin)
+
+```text
+/plugin marketplace add bo-cao/breaking-coding-chaos
+/plugin install bcc@breaking-coding-chaos
 ```
 
-Codex primary root: `~/.codex/skills/`. Shared agents root (often also scanned): `~/.agents/skills/`.
+CLI equivalent: `claude plugin marketplace add bo-cao/breaking-coding-chaos` then `claude plugin install bcc@breaking-coding-chaos`.  
+Guide: [docs/install/claude.md](./docs/install/claude.md)
 
-Then restart Codex or open a **new thread**, confirm only these four BCC folders, and invoke from the skills UI or natural language.
+### Codex
 
-Full guide: [docs/install/codex.md](./docs/install/codex.md).
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
+```
 
-### Everyone else (secondary)
+Lands in `~/.codex/skills/`. Restart Codex / new thread. Guide: [docs/install/codex.md](./docs/install/codex.md)
+
+### Cursor · OpenCode · Hermes · OpenClaw
+
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a cursor
+npx skills add bo-cao/breaking-coding-chaos -g -y -a opencode
+npx skills add bo-cao/breaking-coding-chaos -g -y -a hermes-agent
+npx skills add bo-cao/breaking-coding-chaos -g -y -a openclaw
+```
+
+Guides: [cursor](./docs/install/cursor.md) · [opencode](./docs/install/opencode.md) · [hermes](./docs/install/hermes.md) · [openclaw](./docs/install/openclaw.md)
+
+### Grok / offline / local clone
 
 ```powershell
-.\install.ps1 -AllAgents
+.\install.ps1                 # ~/.grok/skills
+.\install.ps1 -AllAgents      # every known agent path on this machine
+.\install.ps1 -Dest PATH      # one custom skills root
 ```
 
 ```bash
+./install.sh
 ./install.sh --all-agents
+DEST=~/.claude/skills ./install.sh
 ```
 
-- **Grok** — `~/.grok/skills/` · [grok.md](./docs/install/grok.md) · default of `install.ps1`  
-- **Cursor** — `~/.cursor/skills/` · [cursor.md](./docs/install/cursor.md)  
-- **OpenCode** — `~/.config/opencode/skills/` · [opencode.md](./docs/install/opencode.md)  
-- **Hermes** — `~/.hermes/skills/` · [hermes.md](./docs/install/hermes.md)  
-- **OpenClaw** — `~/.openclaw/skills/` · [openclaw.md](./docs/install/openclaw.md)  
+Guide: [docs/install/grok.md](./docs/install/grok.md)
 
 Paste block: [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md) · full matrix: [docs/install/README.md](./docs/install/README.md)
 

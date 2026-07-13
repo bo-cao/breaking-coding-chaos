@@ -2,7 +2,32 @@
 
 Paste for your agent:
 
-> From the breaking-coding-chaos repo root, run `.\install.ps1 -AllAgents` (Windows) or `./install.sh --all-agents` (Unix) to install **exactly four** BCC skills into every supported agent (Grok, Claude, Cursor, Codex, agents, OpenCode `~/.config/opencode/skills`, Hermes `~/.hermes/skills`, OpenClaw `~/.openclaw/skills`). Default without flags is Grok-only. Never leave `bcc` / `bcc-status` mini-skills. New session; verify four names only: bcc-breaking-coding-chaos, bcc-throughline, bcc-plan-spar, bcc-clean-cut.
+> Prefer the open Agent Skills CLI (no clone required):  
+> `npx skills add bo-cao/breaking-coding-chaos -g -y`  
+> Installs exactly four BCC skills (`bcc-breaking-coding-chaos`, `bcc-throughline`, `bcc-plan-spar`, `bcc-clean-cut`) into detected agents (Claude Code, Codex, Cursor, OpenCode, Hermes, OpenClaw, …).  
+> Pin agents: `npx skills add bo-cao/breaking-coding-chaos -g -y -a claude-code -a codex -a cursor`.  
+> Claude Code official plugin: `/plugin marketplace add bo-cao/breaking-coding-chaos` then `/plugin install bcc@breaking-coding-chaos`.  
+> From a local clone (Grok / offline): `.\install.ps1 -AllAgents` (Windows) or `./install.sh --all-agents` (Unix). Never leave `bcc` / `bcc-status` mini-skills. New session; verify only the four `bcc-*` names.
+
+## One-liners
+
+```bash
+# All detected agents (global)
+npx skills add bo-cao/breaking-coding-chaos -g -y
+
+# Claude Code only
+npx skills add bo-cao/breaking-coding-chaos -g -y -a claude-code
+
+# Codex only
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
+```
+
+Claude plugin (inside Claude Code):
+
+```text
+/plugin marketplace add bo-cao/breaking-coding-chaos
+/plugin install bcc@breaking-coding-chaos
+```
 
 ## Invocable skills
 
@@ -14,3 +39,5 @@ Paste for your agent:
 | `/bcc-clean-cut` | Minimal implement |
 
 No separate `/bcc` or `/bcc-status` skills — status is built into the main skill.
+
+Full matrix: [docs/install/README.md](./docs/install/README.md)

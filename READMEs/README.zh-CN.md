@@ -178,86 +178,67 @@ Agent 负责提问、产物、review、APPROVE 后下刀与回写。
 仅 **四个** skill（不多一个）：  
 `bcc-breaking-coding-chaos` · `bcc-throughline` · `bcc-plan-spar` · `bcc-clean-cut`
 
-以 **Claude Code** 与 **Codex** 为主；其他 agent 见后。
+### 一行安装（推荐）
 
-### Claude Code（主）
-
-**1. 用户级 skill**（推荐）：
+开放 [Agent Skills](https://agentskills.io) CLI — 一条命令覆盖 Claude Code、Codex、Cursor、OpenCode、Hermes、OpenClaw 等：
 
 ```bash
-# 仓库根目录 — macOS / Linux
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.claude/skills/
+npx skills add bo-cao/breaking-coding-chaos -g -y
 ```
 
-```powershell
-# Windows
-.\install.ps1 -Dest "$env:USERPROFILE\.claude\skills"
-```
-
-**2. 或项目级 skill**（团队/仓库内）：`.claude/skills/<name>/SKILL.md` — 同样四个文件夹。
-
-用户级路径：`~/.claude/skills/<name>/SKILL.md`。
-
-**3. 使用**
-
-1. 打开**新** Claude Code 会话（启动时重新索引 skill）。  
-2. 输入 `/` — 确认四个 `bcc-*`。  
-3. 试 `/bcc-throughline` 或 `/bcc-breaking-coding-chaos`。
-
-完整说明：[claude.md](../docs/install/claude.md)。  
-`npx skills add bo-cao/breaking-coding-chaos -y`。
-
-### Codex（主）
-
-Codex 为**可选安装**（保持全局 skill 列表精简）。
+只装你用的 agent：
 
 ```bash
-# 仓库根目录 — macOS / Linux
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.codex/skills/
-
-# 许多 Codex 环境也会读：
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      ~/.agents/skills/
+npx skills add bo-cao/breaking-coding-chaos -g -y \
+  -a claude-code -a codex -a cursor -a opencode -a hermes-agent -a openclaw
 ```
 
-```powershell
-# Windows
-.\install.ps1 -Dest "$env:USERPROFILE\.codex\skills"
-.\install.ps1 -Dest "$env:USERPROFILE\.agents\skills"
+然后在各 agent 开**新会话** → 确认只有四个 `bcc-*`。
+
+### Claude Code（官方插件）
+
+```text
+/plugin marketplace add bo-cao/breaking-coding-chaos
+/plugin install bcc@breaking-coding-chaos
 ```
 
-Codex 主路径：`~/.codex/skills/`。共享 agents 路径（常一并扫描）：`~/.agents/skills/`。
+CLI：`claude plugin marketplace add bo-cao/breaking-coding-chaos` 然后 `claude plugin install bcc@breaking-coding-chaos`。  
+说明：[claude.md](../docs/install/claude.md)
 
-然后重启 Codex 或开**新线程**，确认只有这四个 BCC 文件夹，从 UI 或自然语言调用。
+### Codex
 
-完整说明：[codex.md](../docs/install/codex.md)。
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
+```
 
-### 其他（辅）
+安装到 `~/.codex/skills/`。重启 Codex / 新线程。说明：[codex.md](../docs/install/codex.md)
+
+### Cursor · OpenCode · Hermes · OpenClaw
+
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a cursor
+npx skills add bo-cao/breaking-coding-chaos -g -y -a opencode
+npx skills add bo-cao/breaking-coding-chaos -g -y -a hermes-agent
+npx skills add bo-cao/breaking-coding-chaos -g -y -a openclaw
+```
+
+说明：[cursor](../docs/install/cursor.md) · [opencode](../docs/install/opencode.md) · [hermes](../docs/install/hermes.md) · [openclaw](../docs/install/openclaw.md)
+
+### Grok / 离线 / 本地克隆
 
 ```powershell
-.\install.ps1 -AllAgents
+.\install.ps1                 # ~/.grok/skills
+.\install.ps1 -AllAgents      # 本机所有已知 agent 路径
+.\install.ps1 -Dest PATH      # 自定义 skills 根目录
 ```
 
 ```bash
+./install.sh
 ./install.sh --all-agents
+DEST=~/.claude/skills ./install.sh
 ```
 
-- **Grok** — `~/.grok/skills/` · [grok.md](../docs/install/grok.md) · `install.ps1` 默认  
-- **Cursor** — `~/.cursor/skills/` · [cursor.md](../docs/install/cursor.md)  
-- **OpenCode** — `~/.config/opencode/skills/` · [opencode.md](../docs/install/opencode.md)  
-- **Hermes** — `~/.hermes/skills/` · [hermes.md](../docs/install/hermes.md)  
-- **OpenClaw** — `~/.openclaw/skills/` · [openclaw.md](../docs/install/openclaw.md)  
+说明：[grok.md](../docs/install/grok.md)
 
 粘贴块：[INSTALL_FOR_AGENTS.md](../INSTALL_FOR_AGENTS.md) · 完整矩阵：[docs/install/README.md](../docs/install/README.md)
 

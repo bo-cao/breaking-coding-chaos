@@ -1,0 +1,34 @@
+{
+  "name": "breaking-coding-chaos",
+  "owner": {
+    "name": "bo-cao"
+  },
+  "description": "Human-in-the-loop dual-loop skills: throughline, plan-spar, clean-cut",
+  "metadata": {
+    "description": "BCC — ship ideas with agents under a dual control loop",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "bcc",
+      "source": "./",
+      "description": "Breaking Coding Chaos: four dual-loop skills (main + throughline + plan-spar + clean-cut)",
+      "version": "1.0.0",
+      "strict": false,
+      "author": {
+        "name": "bo-cao"
+      },
+      "homepage": "https://github.com/bo-cao/breaking-coding-chaos",
+      "repository": "https://github.com/bo-cao/breaking-coding-chaos",
+      "license": "MIT",
+      "keywords": ["skills", "planning", "hitl", "dual-loop"],
+      "category": "productivity",
+      "skills": [
+        "./skills/bcc-breaking-coding-chaos",
+        "./skills/bcc-throughline",
+        "./skills/bcc-plan-spar",
+        "./skills/bcc-clean-cut"
+      ]
+    }
+  ]
+}

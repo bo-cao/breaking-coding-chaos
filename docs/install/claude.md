@@ -7,12 +7,47 @@ Install **exactly four** skills:
 - `bcc-plan-spar`
 - `bcc-clean-cut`
 
-## User skills (recommended)
+## Recommended — official plugin marketplace
 
-macOS / Linux:
+In **Claude Code** (interactive):
+
+```text
+/plugin marketplace add bo-cao/breaking-coding-chaos
+/plugin install bcc@breaking-coding-chaos
+```
+
+Or non-interactive CLI:
 
 ```bash
-# from the breaking-coding-chaos repo root
+claude plugin marketplace add bo-cao/breaking-coding-chaos
+claude plugin install bcc@breaking-coding-chaos
+```
+
+This is Claude’s first-party plugin flow ([plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)). Skills ship from this repo’s `skills/` tree via [`.claude-plugin/marketplace.json`](../../.claude-plugin/marketplace.json).
+
+Then open a **new** session, type `/`, and confirm the four `bcc-*` skills.
+
+## Alternative — Agent Skills CLI (one line)
+
+Same open standard used across agents ([vercel-labs/skills](https://github.com/vercel-labs/skills)):
+
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a claude-code
+```
+
+Global path: `~/.claude/skills/<name>/SKILL.md`.
+
+Project-scoped (share with the team via git):
+
+```bash
+# from your product repo (not necessarily this one)
+npx skills add bo-cao/breaking-coding-chaos -y -a claude-code
+```
+
+## From a local clone
+
+```bash
+# macOS / Linux — repo root
 cp -R skills/bcc-breaking-coding-chaos \
       skills/bcc-throughline \
       skills/bcc-plan-spar \
@@ -20,68 +55,42 @@ cp -R skills/bcc-breaking-coding-chaos \
       ~/.claude/skills/
 ```
 
-Windows (PowerShell):
-
 ```powershell
+# Windows
 .\install.ps1 -Dest "$env:USERPROFILE\.claude\skills"
 ```
 
-Resulting layout:
-
-```text
-~/.claude/skills/
-  bcc-breaking-coding-chaos/SKILL.md
-  bcc-throughline/SKILL.md
-  bcc-plan-spar/SKILL.md
-  bcc-clean-cut/SKILL.md
-```
-
-## Project skills (repo-local)
-
-Copy the same four folders into the project:
-
-```bash
-mkdir -p .claude/skills
-cp -R skills/bcc-breaking-coding-chaos \
-      skills/bcc-throughline \
-      skills/bcc-plan-spar \
-      skills/bcc-clean-cut \
-      .claude/skills/
-```
-
-Useful when the whole team should share BCC without touching user-global skills.
-
 ## After install
 
-1. **Open a new Claude Code session** (or restart) so skills re-index.
-2. Type `/` and confirm you see the four `bcc-*` skills.
+1. **New Claude Code session** (skills re-index on start).  
+2. Type `/` — confirm four `bcc-*` entries.  
 3. Try:
-   - `/bcc-throughline` — map / status
-   - `/bcc-breaking-coding-chaos` — full Mode A chain
-   - `/bcc-plan-spar` then `/bcc-clean-cut` — after throughline exists
-
-## Optional: skills CLI (when repo is public)
-
-```bash
-npx skills add <you>/breaking-coding-chaos -y
-```
+   - `/bcc-throughline` — map / status  
+   - `/bcc-breaking-coding-chaos` — full Mode A chain  
+   - `/bcc-plan-spar` then `/bcc-clean-cut` — after throughline exists  
 
 ## Uninstall
 
-```bash
-rm -rf ~/.claude/skills/bcc-breaking-coding-chaos \
-       ~/.claude/skills/bcc-throughline \
-       ~/.claude/skills/bcc-plan-spar \
-       ~/.claude/skills/bcc-clean-cut
+Plugin:
+
+```text
+/plugin uninstall bcc@breaking-coding-chaos
 ```
 
-Windows:
+Skills CLI:
 
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.claude\skills\bcc-*"
+```bash
+npx skills remove bcc-breaking-coding-chaos bcc-throughline bcc-plan-spar bcc-clean-cut -g -a claude-code -y
+```
+
+Manual:
+
+```bash
+rm -rf ~/.claude/skills/bcc-*
 ```
 
 ## Notes
 
-- Do **not** copy the whole `skills/*` tree if it ever gains non-BCC folders — name the four explicitly.
-- Slash ids are `bcc-…`. Natural language that matches skill descriptions also works.
+- Prefer **plugin** or **`npx skills add`** over hand-copying when possible.  
+- Slash ids are `bcc-…`. Natural language that matches skill descriptions also works.  
+- Do not invent extra mini-skills (`bcc`, `bcc-status`).

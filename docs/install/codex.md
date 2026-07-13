@@ -7,21 +7,39 @@ Install **exactly four** skills:
 - `bcc-plan-spar`
 - `bcc-clean-cut`
 
-BCC is **not** installed to Codex by default (keeps the global skills list lean). Install only when you want it.
+BCC is **opt-in** for Codex (keeps the global skills list lean).
 
-## User skills
+## Recommended — Agent Skills CLI (official multi-agent path)
 
-macOS / Linux:
+Codex loads skills from `~/.codex/skills/` ([Codex skills docs](https://developers.openai.com/codex/skills)). The open skills CLI installs there with `-a codex`:
 
 ```bash
-# from the breaking-coding-chaos repo root
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
+```
+
+Optional: also install the shared agents path some setups scan:
+
+```bash
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex -a amp
+# amp / universal-style agents often use ~/.agents/skills or ~/.config/agents/skills
+```
+
+List first:
+
+```bash
+npx skills add bo-cao/breaking-coding-chaos --list
+```
+
+## From a local clone
+
+```bash
+# macOS / Linux — repo root
+mkdir -p ~/.codex/skills ~/.agents/skills
 cp -R skills/bcc-breaking-coding-chaos \
       skills/bcc-throughline \
       skills/bcc-plan-spar \
       skills/bcc-clean-cut \
       ~/.codex/skills/
-
-# Many Codex / agent setups also read the shared agents path:
 cp -R skills/bcc-breaking-coding-chaos \
       skills/bcc-throughline \
       skills/bcc-plan-spar \
@@ -29,14 +47,12 @@ cp -R skills/bcc-breaking-coding-chaos \
       ~/.agents/skills/
 ```
 
-Windows (PowerShell):
-
 ```powershell
 .\install.ps1 -Dest "$env:USERPROFILE\.codex\skills"
 .\install.ps1 -Dest "$env:USERPROFILE\.agents\skills"
 ```
 
-Resulting layout:
+Layout:
 
 ```text
 ~/.codex/skills/
@@ -48,41 +64,19 @@ Resulting layout:
 
 ## After install
 
-1. **Restart Codex** or open a **new thread** so skills re-index.
-2. Open the skills UI / list — you should see **only these four** BCC entries (no mini-routers or alias folders).
-3. Invoke from the skills menu, or with natural language that matches each skill description, for example:
-   - “run throughline” / map progress
-   - “plan-spar this slice”
-   - “clean-cut implement PLAN”
-
-## Optional: install everything at once
-
-If you also use Claude, Cursor, Grok, etc.:
-
-```powershell
-.\install.ps1 -AllAgents
-```
-
-```bash
-./install.sh --all-agents
-```
-
-This includes Codex + `~/.agents/skills`.
+1. **Restart Codex** or open a **new thread**.  
+2. Skills UI / list — only these four BCC entries.  
+3. Invoke from the skills menu or natural language (“run throughline”, “plan-spar this slice”, “clean-cut implement PLAN”).
 
 ## Uninstall
 
 ```bash
+npx skills remove bcc-breaking-coding-chaos bcc-throughline bcc-plan-spar bcc-clean-cut -g -a codex -y
+# or
 rm -rf ~/.codex/skills/bcc-* ~/.agents/skills/bcc-*
-```
-
-Windows:
-
-```powershell
-Remove-Item -Recurse -Force "$env:USERPROFILE\.codex\skills\bcc-*"
-Remove-Item -Recurse -Force "$env:USERPROFILE\.agents\skills\bcc-*" -ErrorAction SilentlyContinue
 ```
 
 ## Notes
 
+- Prefer `npx skills add … -a codex` over manual copy.  
 - Four folders max — no `bcc` / `bcc-status` aliases.
-- Prefer explicit copy of the four names over `cp -R skills/*` if the repo layout ever grows.
