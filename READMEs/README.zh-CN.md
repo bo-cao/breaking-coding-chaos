@@ -321,9 +321,9 @@ Codex 主路径：`~/.codex/skills/`。共享 agents 路径（常一并扫描）
 <p align="center">
   <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="../assets/star-history-dark.svg" />
-      <source media="(prefers-color-scheme: light)" srcset="../assets/star-history-light.svg" />
-      <img alt="Star History Chart" src="../assets/star-history-light.svg" width="100%" />
+      <source media="(prefers-color-scheme: dark)" srcset="../assets/star-history-dark.svg?v=2" />
+      <source media="(prefers-color-scheme: light)" srcset="../assets/star-history-light.svg?v=2" />
+      <img alt="Star History Chart" src="../assets/star-history-light.svg?v=2" width="100%" />
     </picture>
   </a>
 </p>
