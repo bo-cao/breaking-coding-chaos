@@ -34,33 +34,46 @@ Same model/runtime family per paired run (v1: Grok / local environment). Isolate
 
 ---
 
-## Success judgment (oracle-first)
+## Success judgment (oracle-first, multi-metric)
 
-Aligned with the spirit of pwf-style evals: **prefer machine-checkable outcomes**, not vibe scores.
+Aligned with the spirit of pwf-style evals: **machine-checkable outcomes**, not vibe scores.  
+**Do not reduce a run to a single “pass” bit** if there was rework after a red suite.
 
-### Primary: case pass
+### Required outcome fields (every run)
 
-A run **passes** only if the case **oracle is all-green**:
+| Field | Definition |
+|-------|------------|
+| **final_pass** | Last tree is oracle all-green within budget |
+| **clean_pass** | **First** full oracle run was already all-green |
+| **first_ok/total** | On first pytest: tests passed / collected |
+| **fail_runs** | Count of oracle runs that were not all-green |
+| **pytest_runs** | How many times the full oracle was run |
+| **turns_to_green** | Steps until **first** all-green (`—` if never) |
 
-- Provided **pytest** (or CLI exit-code checks) in the case package all succeed on the final tree.
-- Hard caps: if turns/time budget is hit with oracle still red → **fail**.
+### Success labels
 
-**Success rate** = `# cases passed / # cases run` per arm.
+| Label | Rule | Notes |
+|-------|------|--------|
+| **Clean success** | `clean_pass` ∧ `final_pass` | Preferred headline |
+| **Eventual success** | `final_pass` ∧ ¬`clean_pass` | Recovered after red suite(s) — **report separately** |
+| **Fail** | ¬`final_pass` | Budget hit or abandoned red |
 
-### Secondary: optional process notes (BCC only, not required for pass)
+**Rates per arm:**
 
-Lightweight, objective file/transcript checks (for internal analysis only unless we agree to publish):
+- `clean_pass_rate` = clean successes / N  
+- `eventual_pass_rate` = final_pass / N  
+- Also: mean `fail_runs`, mean `turns_to_green`, tokens, wall, turns, ruff  
 
-- Global progress artifacts present after multi-slice work.
-- Single living plan-style brief for the active slice (not a sprawl of ad-hoc plans).
-- Writeback into progress after a completed slice.
+Example: first pytest `0/5`, later `5/5` → **eventual success**, **not** clean success.
 
-These do **not** redefine pass/fail for v1 public headline (headline stays **oracle pass rate**).
+### Secondary: process notes (BCC, optional)
 
-### Not used for pass/fail
+File/transcript checks for internal analysis (publish only if we agree): progress trio, single living plan, writeback after slice.
 
-- LLM-as-judge freeform “quality”
-- Human aesthetic review (except optional later blind panel, if we decide)
+### Not used as sole pass/fail
+
+- LLM-as-judge freeform “quality” alone  
+- “Looks done” without oracle  
 
 ---
 

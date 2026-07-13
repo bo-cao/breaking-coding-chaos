@@ -16,9 +16,12 @@
 3. Run arm:
    - **bcc**: skills on, empty project `AGENTS.md`, dual-loop; auto `APPROVE IMPLEMENT` at implement gate.
    - **without**: no BCC skills; short multi-turn demands only.
-4. Grade: `cd workdir && python -m pytest -q` (and any CLI checks in BRIEF).
+4. Grade after material implement turns: `cd workdir && python -m pytest -q`  
+   - Log **every** full oracle run: first `passed/collected`, then each later run.  
+   - Fill scorecard: `final_pass`, `clean_pass`, `fail_runs`, `turns_to_green` (see `../scorecard.md` definitions).  
+   - **Eventual green after a red suite is not a clean_pass.**
 5. Optional: `ruff check .` if ruff installed.
-6. Log row in `../scorecard.md`.
+6. Log full row in `../scorecard.md`.
 
 ## Layout per case
 
