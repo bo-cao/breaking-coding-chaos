@@ -321,14 +321,11 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
 <p align="center">
   <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-dark.svg" />
-      <img alt="Star History Chart" src="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-light.svg" width="100%" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
     </picture>
   </a>
-</p>
-
-<p align="center">
-  <sub>Chart is generated from real GitHub stargazer data (daily CI). Empty / flat while the repo has 0 stars — that is expected.</sub>
 </p>
 
 <p align="center">
@@ -336,7 +333,7 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
   &nbsp;·&nbsp;
   <a href="https://github.com/bo-cao/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">Interactive</a>
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">star-history.com</a>
 </p>
 
 ---

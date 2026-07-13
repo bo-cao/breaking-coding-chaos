@@ -321,14 +321,11 @@ Codex 主路径：`~/.codex/skills/`。共享 agents 路径（常一并扫描）
 <p align="center">
   <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-dark.svg" />
-      <img alt="Star History Chart" src="https://raw.githubusercontent.com/bo-cao/breaking-coding-chaos/star-history/assets/my-star-history/star-history-light.svg" width="100%" />
+      <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date&theme=dark" />
+      <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
+      <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=bo-cao/breaking-coding-chaos&type=Date" />
     </picture>
   </a>
-</p>
-
-<p align="center">
-  <sub>图表由真实 GitHub stargazer 数据生成（每日 CI）。仓库 0 star 时曲线为空/水平是正常现象。</sub>
 </p>
 
 <p align="center">
@@ -336,7 +333,7 @@ Codex 主路径：`~/.codex/skills/`。共享 agents 路径（常一并扫描）
   &nbsp;·&nbsp;
   <a href="https://github.com/bo-cao/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">Interactive</a>
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">star-history.com</a>
 </p>
 
 ---
