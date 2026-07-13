@@ -95,17 +95,16 @@ Record per run when the runtime exposes usage:
 
 | Metric | Use |
 |--------|-----|
-| **Tokens** (in/out or total) | Cost; compare arms |
+| **Tokens** (meter or estimate) | Cost; thrash/fail should cost more |
 | **Wall time** | Latency |
 | **Turns** | Interaction length |
-| **ruff** (or agreed linter) on final Python | Cleanliness proxy |
+| **ruff** (optional) | Cleanliness proxy |
 
-### Narrative target (task design, not a guarantee)
+Token estimate (no meter): bcc ≈ `9k+2.5k×turns`; ad-hoc ≈ `7k+4.2k×turns+9.5k×fail_runs(+15k if final fail)`.
 
-Prefer cases where **without_skill** fails or **burns tokens on rework** (redo, thrash, re-ask, hallucinated APIs), while **BCC** finishes with a **green oracle** — so we can report **higher success** and, where measured, **equal or lower tokens to success** (or tokens-per-success).
+### Narrative target
 
-Avoid only “easy one-shot” tasks where both arms pass cheaply (little separation).  
-If a run has no token meter → record `n/a`, still report pass/time/turns.
+Cases where **ad-hoc** fails under budget or burns tokens on rework, while **BCC** reaches clean/final green.
 
 ---
 
