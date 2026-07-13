@@ -1,0 +1,7 @@
+id: pilot-14-topo
+title: Topo sort
+language: python
+slices: 3
+recovery: false
+stdlib_only: true
+package_hint: topo

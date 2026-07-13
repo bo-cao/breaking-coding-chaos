@@ -1,0 +1,7 @@
+id: pilot-07-csv-join
+title: CSV join
+language: python
+slices: 3
+recovery: false
+stdlib_only: true
+package_hint: csvjoin

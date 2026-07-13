@@ -1,0 +1,7 @@
+id: pilot-15-ini
+title: INI roundtrip
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: iniutil

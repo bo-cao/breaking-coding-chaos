@@ -1,0 +1,7 @@
+id: pilot-08-retry
+title: Retry backoff
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: retrykit

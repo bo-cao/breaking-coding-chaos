@@ -1,0 +1,7 @@
+id: pilot-11-schema
+title: Schema validate
+language: python
+slices: 3
+recovery: false
+stdlib_only: true
+package_hint: schemaval

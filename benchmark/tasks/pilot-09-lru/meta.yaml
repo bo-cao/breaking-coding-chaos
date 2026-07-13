@@ -1,0 +1,7 @@
+id: pilot-09-lru
+title: LRU cache
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: lrucache

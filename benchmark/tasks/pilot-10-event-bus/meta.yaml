@@ -1,0 +1,7 @@
+id: pilot-10-event-bus
+title: Event bus
+language: python
+slices: 3
+recovery: false
+stdlib_only: true
+package_hint: eventbus

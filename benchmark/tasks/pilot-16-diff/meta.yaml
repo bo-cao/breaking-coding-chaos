@@ -1,0 +1,7 @@
+id: pilot-16-diff
+title: Line diff
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: linediff

@@ -1,0 +1,7 @@
+id: pilot-12-redact
+title: Secret redact
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: redact

@@ -1,0 +1,7 @@
+id: pilot-18-priority-queue
+title: Priority queue
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: pq

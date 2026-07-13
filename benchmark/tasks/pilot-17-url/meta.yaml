@@ -1,0 +1,7 @@
+id: pilot-17-url
+title: URL parts
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: urlparts

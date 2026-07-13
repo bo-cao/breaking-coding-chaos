@@ -1,0 +1,7 @@
+id: pilot-13-sliding
+title: Sliding window
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+package_hint: sliding

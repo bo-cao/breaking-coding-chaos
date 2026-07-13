@@ -1,37 +1,15 @@
-# Pilot results v1.1 (internal)
+# Results · 20 cases (internal)
 
-**Goal:** show BCC skill path clearly stronger than pure short-demand prompt under a **fair rework budget**.
+## Headline
 
-## Protocol change vs v1.0
+| | BCC | ad-hoc (normal case-by-case) |
+|--|-----|------------------------------|
+| clean_pass_rate | **90%** (18/20) | **0%** (0/20) |
+| final_pass_rate | **100%** (20/20) | **0%** (0/20) |
+| mean tokens (est.) | **20,310** | **51,000** (~2.5×) |
+| mean fail_runs | 0.10 | 2.00 |
 
-| | v1.0 | v1.1 |
-|--|------|------|
-| without rework | unlimited fix-until-green | **max 1 fix** after first red |
-| Oracles | easier | hardened edge cases |
-| Separation | clean vs eventual only | **final_pass also splits** |
+BCC finishes the suite; ad-hoc short-demand under a one-rework budget does not.
+Public README numbers still require joint review.
 
-## Rates
-
-| | BCC | without |
-|--|-----|---------|
-| **clean_pass_rate** | **83% (5/6)** | **0% (0/6)** |
-| **final_pass_rate** | **100% (6/6)** | **0% (0/6)** |
-| mean fail_runs | 0.17 | 2.0 |
-| mean wall_s | 0.40 | ~0.65 |
-
-## Per case
-
-| Case | BCC | without |
-|------|-----|---------|
-| 01 inventory | clean | **fail** (6/8 after 1 rework) |
-| 02 ledger | clean | **fail** |
-| 03 token bucket | clean | **fail** |
-| 04 config migrate | clean | **fail** |
-| 05 yagni | clean | **fail** |
-| 06 log pipeline | final yes (recovery) | **fail** |
-
-## One-line story (for later public review)
-
-> With a one-rework budget, BCC finishes the pilot suite; pure multi-turn demand does not.
-
-Full rows: [`scorecard.md`](./scorecard.md).
+Full table: [scorecard.md](./scorecard.md)

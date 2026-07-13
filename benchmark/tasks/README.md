@@ -1,34 +1,35 @@
-# Pilot tasks (6)
+# Tasks (20)
 
-| ID | Name | Shape | Recovery |
-|----|------|-------|----------|
-| [pilot-01](./pilot-01-inventory-cli/) | inventory-cli | Multi-slice stdlib CLI | no |
-| [pilot-02](./pilot-02-broken-ledger/) | broken-ledger | Fix bugs + extend | no |
-| [pilot-03](./pilot-03-token-bucket/) | token-bucket | Spec-hard rate limiter | no |
-| [pilot-04](./pilot-04-config-migrate/) | config-migrate | Format migration + validation | no |
-| [pilot-05](./pilot-05-yagni-stats/) | yagni-stats | Minimal stats tool (anti-bloat) | no |
-| [pilot-06](./pilot-06-log-pipeline/) | log-pipeline | Multi-component + mid-stop | **yes** |
+| ID | Name | Recovery |
+|----|------|----------|
+| pilot-01 … pilot-06 | original pilots | 06 yes |
+| pilot-07-csv-join | CSV join | no |
+| pilot-08-retry | Retry backoff | no |
+| pilot-09-lru | LRU cache | no |
+| pilot-10-event-bus | Event bus | no |
+| pilot-11-schema | Schema validate | no |
+| pilot-12-redact | Secret redact | no |
+| pilot-13-sliding | Sliding window | no |
+| pilot-14-topo | Topo sort | no |
+| pilot-15-ini | INI roundtrip | no |
+| pilot-16-diff | Line diff | no |
+| pilot-17-url | URL parts | no |
+| pilot-18-priority-queue | Priority queue | no |
+| pilot-19-batcher | Batcher | no |
+| pilot-20-job-runner | Job runner | **yes** |
 
-## How to run a case (operator)
+## Arms
 
-1. Copy `scaffold/` → clean workdir (or empty dir + copy as specified in BRIEF).
-2. Copy `oracle/tests` into workdir as `tests/` (agents may read tests — they are the contract).
-3. Run arm:
-   - **bcc**: skills on, empty project `AGENTS.md`, dual-loop; auto `APPROVE IMPLEMENT` at implement gate.
-   - **without**: no BCC skills; short multi-turn demands only.
-4. Grade after material implement turns: `cd workdir && python -m pytest -q`  
-   - Log **every** full oracle run: first `passed/collected`, then each later run.  
-   - Fill scorecard: `final_pass`, `clean_pass`, `fail_runs`, `turns_to_green` (see `../scorecard.md` definitions).  
-   - **Eventual green after a red suite is not a clean_pass.**
-5. Optional: `ruff check .` if ruff installed.
-6. Log full row in `../scorecard.md`.
+| arm | Meaning |
+|-----|---------|
+| **bcc** | BCC dual-loop skills |
+| **ad-hoc** | Normal case-by-case agent use (short multi-turn demands; **≤1 rework** after first red) |
 
-## Layout per case
+## Operator
 
-```text
-pilot-0N-name/
-  meta.yaml      # tags, recovery flag
-  BRIEF.md       # agent-facing goal (paste as task)
-  scaffold/      # starting tree (may be empty marker)
-  oracle/        # tests + grade notes
-```
+1. Copy `scaffold/` + `oracle/tests` → workdir; keep project `AGENTS.md` empty.  
+2. Run **bcc** or **ad-hoc** per protocol.  
+3. Log every full pytest into scorecard (`clean` vs `final`).  
+4. Tokens: use runtime meter if available; else estimate formula in suite scripts.
+
+See `../scorecard.md` and `../RESULTS_PILOT.md`.

@@ -1,9 +1,9 @@
 # Benchmarks
 
-Measure **project completion** under **BCC** vs **without_skill** (multi-turn short demand prompts only).  
-Methodology is **inspired by** the public eval style in [planning-with-files `docs/evals.md`](https://github.com/OthmanAdi/planning-with-files/blob/master/docs/evals.md) (objective checks, with/without arms, tokens/time) — **we do not run a planning-with-files comparison arm.**
+Measure **project completion** under **BCC** vs **ad-hoc** (normal case-by-case agent use: short multi-turn demands only).  
+Methodology is **inspired by** the public eval style in [planning-with-files `docs/evals.md`](https://github.com/OthmanAdi/planning-with-files/blob/master/docs/evals.md) (objective checks, dual arms, tokens/time) — **no third-skill comparison arm.**
 
-Python-first. Pilot **6** cases, then expand toward **20**.  
+Python-first. **20** curated cases.  
 **Project `AGENTS.md` stays empty** so the agent is not steered by repo-global instructions outside the skills under test.
 
 ---
@@ -27,22 +27,22 @@ No public claim of numbers until that review.
 
 | Arm | Setup |
 |-----|--------|
-| **BCC** | Four `bcc-*` skills loaded; dual-loop workflow; **auto-APPROVE** when the skill waits on implement gate; plan then implement against full oracle |
-| **without_skill** | No BCC skills; multi-turn **short demand** only — **strict rework budget** (below) |
+| **bcc** | Four `bcc-*` skills; dual-loop; **auto-APPROVE** at implement gate; plan then implement against full oracle |
+| **ad-hoc** | **Normal case-by-case agent use** — no BCC skills; short multi-turn demands only; **strict rework budget** (below) |
 
 Same model/runtime family per paired run (v1: Grok / local environment). Isolated workdir per arm × case.
 
-### without_skill rework budget (v1.1 — makes skill gap visible)
+### ad-hoc rework budget (skill gap visible)
 
-Unlimited “fix until green” **hides** skill value (both arms eventually pass).
+Unlimited “fix until green” hides skill value.
 
-| Rule | without_skill |
-|------|----------------|
+| Rule | ad-hoc (case-by-case) |
+|------|------------------------|
 | After first full oracle | at most **one** short fix demand |
 | Still red after that fix | **`final_pass = no`** (stop) |
 | Recovery cases | mid-stop then **one** “Continue…” only; still red → fail |
 
-BCC is graded after planned implement (clean path). Mid-stop recovery cases may log a red checkpoint, then one continue session — that checkpoint does not use without’s “one fix” rule for BCC.
+BCC: planned implement (clean path). Recovery cases may mid-grade red once, then continue.
 
 ---
 
@@ -129,8 +129,7 @@ Each case should be hard enough that **skill structure matters**:
 
 | Phase | Cases | Recovery share |
 |-------|-------|----------------|
-| Pilot | 6 | ~2 (~1/3) |
-| Full target | 20 | ~6–7 (~1/3) |
+| Full suite | **20** | 2 (pilot-06, pilot-20) |
 
 Recovery protocol (high level): stop near mid progress → new session → only “continue the work in this directory” style demand → grade final oracle.
 
@@ -150,12 +149,10 @@ No full auto harness required for v1; hand-run + table is enough.
 
 ## Status
 
-- [x] Direction locked (arms, oracle pass, tokens, difficulty filter, empty `AGENTS.md`)
-- [x] Pilot task briefs + oracles — see [`tasks/`](./tasks/)
-- [x] Manual [`scorecard.md`](./scorecard.md) template
-- [ ] Pilot runs
-- [ ] Joint review of **public** result form
-- [ ] Expand toward 20
+- [x] Direction locked (bcc vs **ad-hoc**, oracle, tokens est., empty `AGENTS.md`)
+- [x] 20 task packs — see [`tasks/`](./tasks/)
+- [x] Suite run v1.2 — [`scorecard.md`](./scorecard.md), [`RESULTS_PILOT.md`](./RESULTS_PILOT.md)
+- [ ] Joint review of **public** result form (README still has no numbers)
 
 **AGENTS.md:** keep **empty** in this repo (no project-level agent instructions that confound the skill comparison).
 

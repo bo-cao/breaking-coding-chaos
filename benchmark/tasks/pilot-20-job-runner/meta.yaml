@@ -1,0 +1,7 @@
+id: pilot-20-job-runner
+title: Job runner recovery
+language: python
+slices: 5
+recovery: true
+stdlib_only: true
+package_hint: jobrun
