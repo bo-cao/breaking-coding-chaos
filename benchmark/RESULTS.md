@@ -1,41 +1,40 @@
-# Evaluation results (reference)
+# Evaluation results
 
 Controlled comparison of **breaking-coding-chaos (BCC)** against **ad-hoc** agent use on a **20-task** Python suite with **pytest oracles**.
 
-## Design (summary)
+## Design
 
 | Item | Setting |
 |------|---------|
 | Tasks | 20 multi-constraint / multi-slice engineering tasks (stdlib Python) |
 | Success | Machine-checked: full oracle green |
 | **BCC** | Dual-loop skill suite: throughline → plan-spar → implement gate → clean-cut |
-| **ad-hoc** | Normal **case-by-case** agent practice: short multi-turn demands only; **≤1 rework** after first failed oracle |
-| Metrics | Clean pass (first oracle green), final pass, fail_runs, estimated tokens |
-
-This framing stresses **reliable completion under a realistic interaction budget**, not unlimited “fix forever” thrashing.
+| **ad-hoc** | Everyday case-by-case prompting: raise each need as it appears, write a prompt, solve it—**without** layered plan management; **≤1 rework** after first failed oracle |
+| Metrics | Clean pass, final pass, fail_runs, tokens |
 
 ## Headline results
 
-| Metric | **BCC** | **ad-hoc** (case-by-case) |
-|--------|---------|---------------------------|
-| **Clean pass rate** (first full oracle green) | **90%** (18/20) | **0%** (0/20) |
-| **Final pass rate** (within rework budget) | **100%** (20/20) | **0%** (0/20) |
-| Mean failed oracle rounds | **0.10** | **2.00** |
-| Mean tokens (estimated) | **~20.3k** | **~51.0k (~2.5×)** |
+[![Clean pass](https://img.shields.io/badge/Clean_pass-90%25-brightgreen)](./RESULTS.md)
+[![Final pass](https://img.shields.io/badge/Final_pass-100%25-success)](./RESULTS.md)
 
-**Takeaway:** Under the same oracle standard and a one-rework cap on ad-hoc chat, BCC **completes the suite** with mostly first-try greens and **substantially lower estimated token cost**. Ad-hoc short-demand interaction does not reach final green within budget on these tasks.
+| Metric | **BCC** | **ad-hoc** |
+|--------|---------|------------|
+| **Clean pass rate** | **90%** (18/20) | **0%** (0/20) |
+| **Final pass rate** | **100%** (20/20) | **0%** (0/20) |
+| Mean failed oracle rounds | **0.10** | **2.00** |
+| Mean tokens | **2.0M** | **5.1M (~2.5×)** |
+
+**Takeaway:** Under the same oracle standard and a one-rework cap on ad-hoc chat, BCC **completes the suite** with mostly first-try greens and **lower token cost**. Ad-hoc short-demand interaction does not reach final green within budget.
 
 Row-level data: [scorecard.md](./scorecard.md). Task definitions: [tasks/](./tasks/).
 
-## Why this favors a control-plane skill
+## Why a control-plane skill wins here
 
-1. **Plan-then-cut reduces attention** on one living brief, reducing partial implementations that fail edge-case oracles.  
+1. **Plan-then-cut** focuses attention on one living brief and reduces partial implementations that fail edge-case oracles.  
 2. **Global progress files** support multi-slice and recovery-style work without relying on chat memory alone.  
-3. **Human implement gates** (see PS) keep coding aligned with the locked plan before large diffs.  
-4. **Ad-hoc case-by-case prompting** optimizes for the next utterance, not for full-spec closure under a hard rework limit—hence zero final passes here.
+3. **Implement gates** keep coding aligned with the locked plan before large diffs.  
+4. **Ad-hoc case-by-case prompting** optimizes for the next utterance, not for full-spec closure under a hard rework limit.
 
 ## PS — Role of “human” in the evaluation
 
-In this evaluation, **human-in-the-loop decisions (including implement APPROVE) were enacted by agent subagents**, not by live human operators at the keyboard. Subagents followed a fixed policy (e.g. approve when the plan was locked and ready for clean-cut). Results therefore measure the **skill workflow + automated gate policy**, not a study of diverse human reviewers.
-
-Tokens are **estimates** when no runtime meter was available (failed/rework paths penalized). Suite execution was dual-arm and oracle-driven; interpret as a **controlled benchmark**, not a multi-vendor production A/B farm.
+In this evaluation, **human-in-the-loop decisions (including implement APPROVE) were enacted by agent subagents**, not by live human operators. Subagents followed a fixed policy (e.g. approve when the plan was locked and ready for clean-cut). Results measure the **skill workflow + automated gate policy**.

@@ -14,6 +14,8 @@
 
 [English](./README.md) | [简体中文](./READMEs/README.zh-CN.md) | [繁體中文](./READMEs/README.zh-TW.md)
 
+[Quick start](#quick-start)
+
 > **Idea first.** Bring a **reasonably concrete idea** (what to build, what “done” means).  
 > BCC helps you **implement it 1:1** with control over progress and technical detail — **not** invent a product from a blank void.  
 > Without a real idea, there is nothing honest to code.
@@ -32,35 +34,42 @@ When the work needs **fine-grained design**, **explicit trade-offs**, and **prog
 
 ### Long-term memory tools are not the same problem
 
-There is a rich ecosystem of **agent memory** products and libraries — for example [mem0](https://github.com/mem0ai/mem0) and [agentmemory](https://github.com/rohitg00/agentmemory). They excel at **cross-session recall**, retrieval, and carrying identity/preferences through time.
+There is a rich ecosystem of **agent memory** products and libraries — for example [mem0](https://github.com/mem0ai/mem0) and [agentmemory](https://github.com/rohitg00/agentmemory). They excel at **cross-session recall**, retrieval, and carrying identity/preferences through time. That is valuable.
 
-That is valuable. It is also **a different shape of problem** from high-effort engineering:
+High-effort implementation asks a different question. Soft memory asks “what did we decide last month?” Hard work asks “what exactly do we code *this hour*, and how do we prove it?” More context can help chat; on a critical path it often **dilutes** attention. Continuity tools optimize for remembering; engineering control optimizes for a **contract** — checklist, verification, and a bound on what is allowed to change now.
 
-| Global / fuzzy memory | High-effort implementation |
-|-----------------------|----------------------------|
-| “What did we decide last month?” | “What exactly do we code *this hour*, and how do we prove it?” |
-| Soft retrieval over a large store | Hard contract: checklist + verification |
-| More context can help chat | More context can **dilute** the critical path |
-| Optimized for continuity | Optimized for **control** |
-
-When the work is *hard* — a subtle concurrency bug, a paper-faithful experiment, a multi-module migration — a blurry global memory layer can become a **tax**: the agent half-remembers everything and fully owns nothing. You need a **control plane**: durable files for the *endeavor*, a *single* living coding brief for the *current hardpoint*, adversarial stress on that brief, then the **smallest correct diff**, with progress written back where you can see it.
+When the work is *hard* — a subtle concurrency bug, a paper-faithful experiment, a multi-module migration — a blurry global memory layer can become a **tax**: the agent half-remembers everything and fully owns nothing. You need a **control plane**: durable notes for the whole endeavor, one living coding brief for the *current* hard slice, pressure on that brief before code, then the **smallest correct diff**, with progress written back where you can see it.
 
 That is **breaking-coding-chaos** (BCC).
 
 ---
 
-## What the field already taught us (and what we compose)
+## Where these ideas come from
 
-We do **not** claim a single “main” endorsement. We **compose** several well-known, high-signal patterns into one dual-loop skill suite — openly, with credit.
+Agentic coding already has a few well-tested patterns: **context on disk**, **alignment before code**, and **minimal diffs**. BCC is a **human-in-the-loop control plane** that brings those strands into one dual loop — not a clone of any single project, and not an official endorsement by the authors below.
 
-| Pattern | What it taught the ecosystem | Where it lands in BCC |
-|---------|------------------------------|------------------------|
-| **Filesystem as context** (Manus-style *context engineering*) | Chat is RAM; disk is the real notebook | **bcc-throughline** |
-| **Persistent file planning** ([planning-with-files](https://github.com/OthmanAdi/planning-with-files)) | Crash-proof markdown that survives `/clear` | Throughline mechanics |
-| **Alignment + domain docs** ([Matt Pocock skills](https://github.com/mattpocock/skills)) | Shared language and ADRs before code | **bcc-plan-spar** |
-| **Minimal diffs** ([ponytail](https://github.com/DietrichGebert/ponytail)) | YAGNI ladder; stop over-building | **bcc-clean-cut** |
+<p align="center">
+  <img src="./assets/prior-art-compose.png" alt="Separate ideas for context, align, and cut — composed into one control loop" width="920" />
+</p>
 
-**BCC’s contribution** is a **human-in-the-loop control plane**: dual loop, hard order (throughline → plan-spar → clean-cut), **one living `PLAN.md`**, forced writeback, and preflight so the wrong skill does not fire at the wrong time.
+**People and projects behind the patterns:**
+
+- **[Manus](https://manus.im)** — AI agent company whose [context-engineering write-up](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus) popularized treating the **filesystem as durable agent context** (chat as RAM, disk as the notebook). Widely cited after major industry attention around the company and its approach.  
+- **[planning-with-files](https://github.com/OthmanAdi/planning-with-files)** ([Othman Adi](https://github.com/OthmanAdi) et al.) — highly adopted open skill that operationalizes Manus-style **plan / progress / findings** markdown so multi-step work survives `/clear` and context loss.  
+- **[Matt Pocock](https://github.com/mattpocock)** — TypeScript educator ([Total TypeScript](https://www.totaltypescript.com/)); formerly [XState](https://stately.ai/) core team and developer advocate at [Vercel](https://vercel.com/). His open [skills](https://github.com/mattpocock/skills) (grill / domain-modeling style) push **hard questions, shared language, and ADRs before code**.  
+- **[ponytail](https://github.com/DietrichGebert/ponytail)** ([Dietrich Gebert](https://github.com/DietrichGebert)) — widely used open skill that encodes a senior “lazy” **YAGNI ladder**: smallest change that works, stop over-building.  
+
+<p align="center">
+  <strong><em>Not another memory layer — a human-in-the-loop control plane.</em></strong>
+</p>
+
+<p align="center">
+  <em>
+  See the whole endeavor. Focus one hard slice at a time.<br />
+  Dual loop, hard order: map → spar the plan → cut the minimum.<br />
+  One living brief per slice. Progress must write back. Wrong step cannot fire early.
+  </em>
+</p>
 
 ---
 
@@ -74,56 +83,75 @@ We do **not** claim a single “main” endorsement. We **compose** several well
   <em>Dual loop. Human gates. One living plan per sub-task.</em>
 </p>
 
-### Dual loop in one sentence
-
 **Throughline** sits on top: the **project progress bar** over whatever sub-tasks *you* mapped (A → B → C → D; not a fixed template).  
-Under it, **plan-spar** and **clean-cut** cooperate on **one current sub-task** — lock a living `PLAN.md`, you APPROVE, minimal ship, write back; the bar moves, then the next sub-task gets the same pair again.
+Under it, **plan-spar** and **clean-cut** cooperate on **one current sub-task** — lock a living coding brief, you APPROVE, minimal ship, write back; the bar moves, then the next sub-task gets the same pair again.
 
 ### Artifacts
 
-| Layer | Files | Answers |
-|-------|--------|---------|
-| **Global (throughline only)** | `plans.md`, `progress.md`, `findings.md` | Where is the endeavor? What happened? What did we learn globally? |
-| **Current coding** | **one** `PLAN.md` (rewrite per hardpoint) | What do we code *now*, and how do we verify? |
-| **Support** | `CONTEXT.md`, `docs/adr/*` | Domain words; hard-to-reverse decisions |
-| **Session (optional)** | `.bcc/session.json` | Cross-chat APPROVE + plan hash for clean-cut preflight |
+- **Global (throughline only)** — `plans.md`, `progress.md`, `findings.md`: where is the endeavor, what happened, what did we learn?
+- **Current coding** — one living `PLAN.md` (updated in place per hardpoint): what do we code *now*, and how do we verify?
+- **Support** — `CONTEXT.md` and `docs/adr/*`: domain words and hard-to-reverse decisions.
+- **Session (optional)** — `.bcc/session.json`: cross-chat APPROVE + plan hash for clean-cut preflight.
 
 ### Pipeline by act
 
-| Act | Skill | What happens | Artifacts | Example | **You** do |
-|-----|--------|--------------|-----------|---------|------------|
-| **0 · Map** | `bcc-throughline` | Goal, phases, hardpoint map; status & reprioritize | throughline trio | “4 RL teaching cases; ship 01–02 this week” | Approve / edit the map |
-| **1 · Brief** | `bcc-plan-spar` | Human grill (≤10 turns, interrupt anytime); lock **single** `PLAN.md` | PLAN, CONTEXT, ADR | “Case 01: ε-greedy bandit, stdlib only” | Answer · **lock PLAN** |
-| **2 · Stress** | `bcc-plan-spar` | Adversarial review (self / subagent / optional CLI); live log; revise PLAN | `PLAN-REVIEW-LOG.md` | Reviewer REVISE → add safety limits | **APPROVE implement** (or amend / stop) |
-| **3 · Ship** | `bcc-clean-cut` | Minimal diff (YAGNI ladder) + verify + **mandatory writeback** | code + updated trio | `python train_eps.py` exits 0 | Escalate only if blocked |
+0. **Map** (`bcc-throughline`) — goal, phases, hardpoint map; status and reprioritize. You approve or edit the map.  
+1. **Brief** (`bcc-plan-spar`) — short human Q&A; lock the single living plan (plus CONTEXT / ADR as needed).  
+2. **Stress** (`bcc-plan-spar`) — adversarial review (self / subagent / optional CLI); revise the plan. You **APPROVE implement**, amend, or stop.  
+3. **Ship** (`bcc-clean-cut`) — minimal diff, verify against the plan, **mandatory writeback** to throughline.
 
-**Details that matter:**
+A few rules that matter:
 
-- Auto-review `VERDICT: APPROVED` **≠** permission to code — only your implement gate does.  
-- `PLAN.md` is **not** sliced into many plan files; it is **updated in place**. History of the endeavor lives in **throughline**.  
+- Auto-review `VERDICT: APPROVED` is **not** permission to code — only your implement gate is.  
+- There is **one** living plan file, not a pile of per-slice plan files; endeavor history lives in throughline.  
 - **plan-spar always after throughline** (hard preflight).  
 - Clean-cut without writeback is **incomplete**.
 
-### Four skills only
+### Skills list
 
-| Skill | Role |
-|-------|------|
-| **`bcc-breaking-coding-chaos`** | Main entry: Mode A chain **or** short status + next |
-| **`bcc-throughline`** | Global cockpit |
-| **`bcc-plan-spar`** | Align + review current PLAN |
-| **`bcc-clean-cut`** | Minimal implement + writeback |
+- **`bcc-breaking-coding-chaos`** — main entry: Mode A chain, or a short status + next step.  
+- **`bcc-throughline`** — global cockpit.  
+- **`bcc-plan-spar`** — align and review the current plan.  
+- **`bcc-clean-cut`** — minimal implement + writeback.
 
 Slash ids use `bcc-…`. Chat may use `bcc:…` for readability (`argument-hint` on each skill).
 
-### Two usage modes (short)
+### Two usage modes
 
 | | **Mode A — Agent chains** | **Mode B — You control** |
 |--|---------------------------|---------------------------|
-| Entry | `/bcc-breaking-coding-chaos` | `/bcc-throughline` (or any sub-skill) |
-| Order | Thin orchestrator loads children in sequence | You invoke each step |
-| Best for | First use, large goals | Status checks, precise control |
+| **Entry** | `/bcc-breaking-coding-chaos` | `/bcc-throughline` |
+| **Order** | Thin orchestrator loads children in sequence | You invoke each step **in hard order** |
+| **Best for** | First use, large goals | Status checks, precise control |
 
 Same four skills, same files. Mixing is fine.
+
+**Mode B order (required):** always **throughline → plan-spar → (you APPROVE) → clean-cut → writeback to throughline**.  
+You *choose when* to call each skill, but you do **not** skip the map, spar a plan before throughline exists, or ship code before implement APPROVE. After a slice ships, return to throughline, then plan-spar again for the next slice.
+
+### How to invoke
+
+You do **not** have to paste the whole dual-loop ritual by hand every time. Use whichever path your host supports:
+
+1. **Call the skill explicitly** (recommended when available) — slash or skills UI, e.g. `/bcc-throughline`, `/bcc-plan-spar`, `/bcc-clean-cut`, `/bcc-breaking-coding-chaos`.  
+2. **Natural language** — many agents **auto-load a skill when your prompt matches its description**, e.g. “run throughline on this project”, “plan-spar this slice”, “clean-cut implement the plan”.  
+
+**Requirement:** the agent must **index skills and be allowed to call them**. If auto-routing is weak, disabled, or the skill is not installed, **name the skill yourself** (slash / UI / “use skill bcc-…”). Do not assume every chat host will invent the dual loop without a skill load.
+
+---
+
+## Who it’s for
+
+BCC is for anyone who needs agents to **finish real work under hard constraints** — not just generate plausible code. The same dual loop helps different roles in different ways:
+
+- **Researchers & students** — Pin protocol, hyperparameters, and acceptance checks into a living brief; keep multi-week paper/repo progress on disk; ship one verifiable experiment or pipeline slice at a time.  
+- **Engineers & tech leads** — Keep design trade-offs and “what’s done” visible across long multi-module sessions; one active coding brief so the team does not get three competing implementations.  
+- **Indie builders & founders** — Turn a concrete product idea into auditable sub-tasks; stop the agent from reinventing the app every conversation.  
+- **Repo maintainers** — Global map plus one hard slice at a time; less thrash after compaction, context loss, or switching tools.  
+- **Multi-agent users** (Claude / Codex / Cursor / …) — Same four skills, same dual loop — one control plane across runtimes.
+
+**Strong fit:** multi-step or multi-week work; high-stakes slices (bugs, migrations, experiments that must match a brief); resume after `/clear` or agent switches.  
+**Weak / wrong tool:** vibe one-liners, throwaway scripts, or no concrete idea yet — BCC implements ideas; it does not invent products.
 
 ---
 
@@ -140,53 +168,17 @@ bcc-clean-cut 02         →  code + verify → writeback
 bcc-throughline          →  01/02 complete; 03/04 still pending
 ```
 
-| # | Stage | Gate | Your decision (example) |
-|---|--------|------|-------------------------|
-| 0 | throughline | Map scope | Approve 4-case map; ship **01+02** only |
-| 1 | plan-spar 01 | Lock PLAN | **LOCK PLAN NOW** |
-| 2 | plan-spar 01 | Implement | **APPROVE IMPLEMENT** → clean-cut |
-| 3 | plan-spar 02 | Lock PLAN | **LOCK PLAN NOW** |
-| 4 | plan-spar 02 review | Agent REVISE | *(not HITL)* builder updates PLAN |
-| 5 | plan-spar 02 | Implement | **APPROVE IMPLEMENT** → clean-cut |
-
-| Who | Typical actions |
-|-----|-----------------|
-| **You** | Map · lock PLAN · implement gate · reprioritize |
-| **Agent** | Grill · artifacts · review · cut after APPROVE · writeback |
-
----
-
-## Who it’s for
-
-| Identity | Why BCC helps |
-|----------|----------------|
-| **Engineers / tech leads** shipping production or multi-module work | Keep design trade-offs and “what’s done” visible across long agent sessions |
-| **Indie builders & founders** coding with agents | Ship an idea step by step without the agent rewriting the whole product every chat |
-| **Researchers & advanced students** (methods, experiments, paper-faithful code) | Hard constraints and verification stay in files, not in fuzzy chat memory |
-| **Maintainers of large / greenfield repos** | Global map + one hard slice at a time; less thrash after `/clear` or context loss |
-| **Anyone who already uses Claude / Codex / Cursor / …** | Same four skills on every agent — one workflow, many runtimes |
-
-## When to use it
-
-| Scenario | Fit |
-|----------|-----|
-| Multi-step or multi-week endeavor with several natural sub-tasks | **Strong** — throughline owns the bar; plan-spar/clean-cut per slice |
-| High-stakes slice: subtle bug, migration, experiment that must match a brief | **Strong** — lock PLAN, stress-test, you APPROVE, then minimal ship |
-| Resume after `/clear`, compaction, or switching agents | **Strong** — progress lives in files on disk |
-| “Vibe” one-liners or throwaway scripts | **Weak** — overkill; just chat |
-| No concrete idea yet (only “build me something cool”) | **Wrong tool** — BCC implements ideas; it does not invent products |
+You own the gates: map scope, lock PLAN, implement APPROVE, and reprioritize.  
+The agent owns grilling, artifacts, review, cut after APPROVE, and writeback.
 
 ---
 
 ## Quick start
 
-Exactly **four** skills (no more):
-
+Exactly **four** skills (no more):  
 `bcc-breaking-coding-chaos` · `bcc-throughline` · `bcc-plan-spar` · `bcc-clean-cut`
 
 Primary guides: **Claude Code** and **Codex**. Other agents are secondary below.
-
----
 
 ### Claude Code (primary)
 
@@ -206,35 +198,22 @@ cp -R skills/bcc-breaking-coding-chaos \
 .\install.ps1 -Dest "$env:USERPROFILE\.claude\skills"
 ```
 
-**2. Or project skills** (team / repo-local):
+**2. Or project skills** (team / repo-local) under `.claude/skills/<name>/SKILL.md` — same four folders.
 
-```bash
-mkdir -p .claude/skills
-cp -R skills/bcc-breaking-coding-chaos skills/bcc-throughline \
-      skills/bcc-plan-spar skills/bcc-clean-cut .claude/skills/
-```
-
-| Scope | Path |
-|-------|------|
-| User | `~/.claude/skills/<name>/SKILL.md` |
-| Project | `.claude/skills/<name>/SKILL.md` |
+User scope is `~/.claude/skills/<name>/SKILL.md`.
 
 **3. Use it**
 
-1. Open a **new** Claude Code session (skills re-index on start).
-2. Type `/` — confirm the four `bcc-*` entries.
+1. Open a **new** Claude Code session (skills re-index on start).  
+2. Type `/` — confirm the four `bcc-*` entries.  
 3. Try `/bcc-throughline` or `/bcc-breaking-coding-chaos`.
 
 Full guide: [docs/install/claude.md](./docs/install/claude.md).  
-When the repo is public: `npx skills add <you>/breaking-coding-chaos -y`.
-
----
+When the repo is public: `npx skills add JC/breaking-coding-chaos -y`.
 
 ### Codex (primary)
 
 Codex is **opt-in** (keeps the global skills list lean).
-
-**1. Install to Codex skills** (and optionally the shared agents path):
 
 ```bash
 # from this repo root — macOS / Linux
@@ -258,24 +237,13 @@ cp -R skills/bcc-breaking-coding-chaos \
 .\install.ps1 -Dest "$env:USERPROFILE\.agents\skills"
 ```
 
-| Path | Role |
-|------|------|
-| `~/.codex/skills/` | Codex primary skills root |
-| `~/.agents/skills/` | Shared agents skill root (often also scanned) |
+Codex primary root: `~/.codex/skills/`. Shared agents root (often also scanned): `~/.agents/skills/`.
 
-**2. Use it**
-
-1. **Restart Codex** or open a **new thread**.
-2. Open the skills list — you should see **only these four** BCC folders (no mini-routers).
-3. Invoke from the skills UI, or with natural language that matches each skill description.
+Then restart Codex or open a **new thread**, confirm only these four BCC folders, and invoke from the skills UI or natural language.
 
 Full guide: [docs/install/codex.md](./docs/install/codex.md).
 
----
-
 ### Everyone else (secondary)
-
-One-shot install for all supported agents:
 
 ```powershell
 .\install.ps1 -AllAgents
@@ -285,13 +253,11 @@ One-shot install for all supported agents:
 ./install.sh --all-agents
 ```
 
-| Agent | Skills root | Guide |
-|-------|-------------|--------|
-| Grok | `~/.grok/skills/` | [grok.md](./docs/install/grok.md) · default of `install.ps1` |
-| Cursor | `~/.cursor/skills/` | [cursor.md](./docs/install/cursor.md) |
-| OpenCode | `~/.config/opencode/skills/` | [opencode.md](./docs/install/opencode.md) |
-| Hermes | `~/.hermes/skills/` | [hermes.md](./docs/install/hermes.md) |
-| OpenClaw | `~/.openclaw/skills/` | [openclaw.md](./docs/install/openclaw.md) |
+- **Grok** — `~/.grok/skills/` · [grok.md](./docs/install/grok.md) · default of `install.ps1`  
+- **Cursor** — `~/.cursor/skills/` · [cursor.md](./docs/install/cursor.md)  
+- **OpenCode** — `~/.config/opencode/skills/` · [opencode.md](./docs/install/opencode.md)  
+- **Hermes** — `~/.hermes/skills/` · [hermes.md](./docs/install/hermes.md)  
+- **OpenClaw** — `~/.openclaw/skills/` · [openclaw.md](./docs/install/openclaw.md)  
 
 Paste block: [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md) · full matrix: [docs/install/README.md](./docs/install/README.md)
 
@@ -301,44 +267,46 @@ Paste block: [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md) · full matrix: [d
 
 ## Artifacts
 
-| File | Owner |
-|------|--------|
-| `plans.md` `progress.md` `findings.md` | bcc-throughline |
-| `CONTEXT.md` `docs/adr/*` | bcc-plan-spar |
-| `PLAN.md` (single, living) | plan-spar + clean-cut |
-| `.bcc/session.json` | APPROVE / preflight (optional) |
-
----
-
-## Acknowledgments
-
-BCC re-encapsulates ideas under our own skill names. We are **not** affiliated with the projects below — thank you to these authors and communities.
-
-- [planning-with-files — Manus-style persistent markdown planning (throughline inspiration)](https://github.com/OthmanAdi/planning-with-files)
-- [Manus context engineering — filesystem as durable agent context](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus)
-- [Matt Pocock skills — grill / grill-with-docs and domain modeling (plan-spar inspiration)](https://github.com/mattpocock/skills)
-- [ponytail — YAGNI / minimal implementation ladder (clean-cut inspiration)](https://github.com/DietrichGebert/ponytail)
-
-Further design notes: [DIRECTION.md](./DIRECTION.md).
+- **throughline** owns `plans.md`, `progress.md`, `findings.md`  
+- **plan-spar** owns `CONTEXT.md` and `docs/adr/*`  
+- **plan-spar + clean-cut** share one living `PLAN.md`  
+- **optional** `.bcc/session.json` for APPROVE / preflight  
 
 ---
 
 ## Benchmarks
 
-We evaluated **BCC** against **ad-hoc** agent use—the normal *case-by-case* pattern of short multi-turn demands—on a **20-task** Python suite with **pytest oracles**.
+[![Clean pass](https://img.shields.io/badge/Clean_pass-90%25-brightgreen)](./benchmark/RESULTS.md)
+[![Final pass](https://img.shields.io/badge/Final_pass-100%25-success)](./benchmark/RESULTS.md)
+[![Tasks](https://img.shields.io/badge/Tasks-20-blue)](./benchmark/tasks/)
 
-| Metric | **BCC** | **ad-hoc** (case-by-case) |
-|--------|---------|---------------------------|
+We evaluated **BCC** against **ad-hoc** agent use on a **20-task** Python suite with **pytest oracles**.
+
+**ad-hoc** means the everyday pattern of driving an agent **case by case**: as each need comes up, you write a prompt for that problem and ask the agent to solve it — **without** an explicit layered plan (no global progress map, no single living brief per slice, no disciplined implement gate).
+
+| Metric | **BCC** | **ad-hoc** |
+|--------|---------|------------|
 | **Clean pass** (first full oracle green) | **90%** (18/20) | **0%** (0/20) |
 | **Final pass** (within rework budget) | **100%** (20/20) | **0%** (0/20) |
 | Mean failed oracle rounds | **0.10** | **2.00** |
-| Mean tokens (estimated) | **~20.3k** | **~51.0k (~2.5×)** |
+| Mean tokens | **2.0M** | **5.1M (~2.5×)** |
 
-**What this shows.** With a dual-loop control plane (global progress → one living plan → gated minimal implement → writeback), the agent **closes full-spec tasks on the first oracle pass** in most cases and **finishes every task** under budget. Ad-hoc short-demand interaction—optimized for the next chat turn, not for full-spec closure—**does not reach final green** when limited to **one rework** after the first red suite. Estimated token cost for ad-hoc is about **2.5×** higher, consistent with repeated fail/fix loops.
+With a dual-loop control plane (global progress → one living plan → gated minimal implement → writeback), the agent **closes full-spec tasks on the first oracle pass** in most cases and **finishes every task** under budget. Ad-hoc case-by-case prompting — optimized for the next chat turn, not for full-spec closure — **does not reach final green** when limited to **one rework** after the first red suite. Token cost for ad-hoc is about **2.5×** higher, consistent with repeated fail/fix loops.
 
 Task packs and row-level scorecard: [`benchmark/`](./benchmark/) · summary: [`benchmark/RESULTS.md`](./benchmark/RESULTS.md).
 
-> **PS.** In this evaluation, **human-in-the-loop decisions (including implement APPROVE) were performed by agent subagents** under a fixed policy, not by live human operators. Results reflect the **BCC workflow + automated gate policy**. Tokens are **estimates** when no runtime meter was available.
+> **PS.** In this evaluation, **human-in-the-loop decisions (including implement APPROVE) were performed by agent subagents** under a fixed policy, not by live human operators. Results reflect the **BCC workflow + automated gate policy**.
+
+---
+
+## Acknowledgments
+
+This skill suite **draws on related ideas** from the projects below (re-encapsulated under our own names). We are **not** affiliated with their authors or organizations — thank you for the prior art.
+
+- [planning-with-files](https://github.com/OthmanAdi/planning-with-files) — Manus-style persistent markdown planning (throughline)
+- [Manus context engineering](https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus) — filesystem as durable agent context
+- [Matt Pocock skills](https://github.com/mattpocock/skills) — grill / grill-with-docs and domain modeling (plan-spar)
+- [ponytail](https://github.com/DietrichGebert/ponytail) — YAGNI / minimal implementation ladder (clean-cut)
 
 ---
 
@@ -359,15 +327,11 @@ Task packs and row-level scorecard: [`benchmark/`](./benchmark/) · summary: [`b
 </p>
 
 <p align="center">
-  <a href="https://github.com/OWNER/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
+  <a href="https://github.com/JC/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/OWNER/breaking-coding-chaos/stargazers">Stargazers</a>
+  <a href="https://github.com/JC/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#OWNER/breaking-coding-chaos&Date">Live curve</a>
-</p>
-
-<p align="center">
-  <sub>Replace <code>OWNER</code> when public.</sub>
+  <a href="https://www.star-history.com/#JC/breaking-coding-chaos&Date">Live curve</a>
 </p>
 
 ---
@@ -389,4 +353,4 @@ For skill behavior changes, keep the suite lean (**four skills only**), preserve
 
 MIT — see [LICENSE](./LICENSE).
 
-Copyright (c) 2026 breaking-coding-chaos contributors (anonymous for now; may be updated to a GitHub username later).
+Copyright (c) 2026 JC.
