@@ -242,4 +242,10 @@ cp -R … ~/.agents/skills/
 
 ---
 
+## Contributing
+
+歡迎貢獻。請：Fork → 建 feature 分支 → 提 PR。完整說明見 **[英文 README · Contributing](../README.md#contributing)**。
+
+---
+
 License: MIT。

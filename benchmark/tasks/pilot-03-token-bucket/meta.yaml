@@ -1,0 +1,6 @@
+id: pilot-03-token-bucket
+title: Token bucket
+language: python
+slices: 3
+recovery: false
+stdlib_only: true

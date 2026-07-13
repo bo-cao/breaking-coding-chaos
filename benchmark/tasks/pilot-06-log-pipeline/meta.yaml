@@ -1,0 +1,6 @@
+id: pilot-06-log-pipeline
+title: Log pipeline
+language: python
+slices: 5
+recovery: true
+stdlib_only: true

@@ -1,0 +1,6 @@
+id: pilot-01-inventory-cli
+title: Inventory CLI
+language: python
+slices: 4
+recovery: false
+stdlib_only: true

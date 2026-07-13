@@ -1,0 +1,7 @@
+id: pilot-05-yagni-stats
+title: YAGNI stats
+language: python
+slices: 2
+recovery: false
+stdlib_only: true
+anti_bloat: true

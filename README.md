@@ -325,7 +325,9 @@ Further design notes: [DIRECTION.md](./DIRECTION.md).
 
 ## Benchmarks
 
-Placeholder — representative tasks and scorecards will land under `benchmark/`.
+Pilot suite (6 cases) and scorecard live under [`benchmark/`](./benchmark/).  
+**Oracle = pytest all-green**; arms = BCC vs multi-turn demand without skill.  
+Numbers and public write-up only after runs + joint review (see `benchmark/README.md`).
 
 ---
 
@@ -356,6 +358,19 @@ Placeholder — representative tasks and scorecards will land under `benchmark/`
 <p align="center">
   <sub>Replace <code>OWNER</code> when public.</sub>
 </p>
+
+---
+
+## Contributing
+
+Contributions welcome! Please:
+
+1. **Fork** the repository  
+2. **Create a feature branch** (`git checkout -b feature/your-change`)  
+3. **Commit** with a clear message  
+4. **Open a pull request** against `master`  
+
+For skill behavior changes, keep the suite lean (**four skills only**), preserve throughline → plan-spar → clean-cut order and human gates, and update EN + 简体中文 + 繁體中文 docs when user-facing text changes.
 
 ---
 

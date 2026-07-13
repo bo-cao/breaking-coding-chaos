@@ -1,0 +1,6 @@
+id: pilot-04-config-migrate
+title: Config migrate v1 to v2
+language: python
+slices: 3
+recovery: false
+stdlib_only: true
