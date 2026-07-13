@@ -1,14 +1,10 @@
 # Grok
 
-**User:** `~/.grok/skills/<name>/`  
-**Project:** `<repo>/.grok/skills/<name>/`
-
 ```powershell
-$Repo = "D:\path\to\breaking-coding-chaos"
-$Dest = "$env:USERPROFILE\.grok\skills"
-foreach ($s in "breaking-coding-chaos","throughline","plan-spar","clean-cut") {
-  Copy-Item -Recurse -Force "$Repo\skills\$s" "$Dest\$s"
-}
+cd <repo>
+.\install.ps1
 ```
 
-Skills auto-reload when files change. Invoke `/breaking-coding-chaos`, `/throughline`, `/plan-spar`, `/clean-cut`.
+User skills: `~/.grok/skills/` — exactly four `bcc-*` folders.
+
+Invoke: `/bcc-breaking-coding-chaos`, `/bcc-throughline`, `/bcc-plan-spar`, `/bcc-clean-cut`.

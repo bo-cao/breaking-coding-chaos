@@ -1,18 +1,21 @@
 # PLAN.md Format
 
-Adapted from grill-with-docs PLAN-FORMAT for **plan-spar**.
+Adapted from grill-with-docs PLAN-FORMAT for **bcc-plan-spar**.
 
-`PLAN.md` is the **current executable coding plan only**. Not a glossary, not throughline progress.
-plan-spar **locks** and spars this file; **clean-cut** executes it and trims completed items.
-Both **update / 约减** so PLAN stays short.
+`PLAN.md` is the **one** current executable coding plan (repo root by default).  
+Not a glossary, not the global endeavor log.
 
-Do **not** write coding plans into `plans.md` / `findings.md` / `progress.md`.
+- **Global** phases / hardpoint map / session history → only `plans.md` / `progress.md` / `findings.md`.  
+- **No** per-slice PLAN file tree: when the active hardpoint changes, **rewrite this same `PLAN.md`**.  
+- bcc-plan-spar locks/spars; bcc-clean-cut executes and 约减. Keep short.
+
+Do **not** write coding checklists into the throughline trio.
 
 ## Template
 
 ```markdown
 # Plan: <task>
-_Locked via plan-spar — <date or session>. Terms per CONTEXT.md._
+_Locked via bcc-plan-spar — <date or session>. Terms per CONTEXT.md._
 
 ## Goal
 <one paragraph, ubiquitous language from CONTEXT.md>

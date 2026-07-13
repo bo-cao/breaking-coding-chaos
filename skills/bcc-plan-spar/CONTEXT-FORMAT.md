@@ -1,6 +1,6 @@
 # CONTEXT.md Format
 
-Adapted from domain-modeling CONTEXT-FORMAT for **plan-spar**.
+Adapted from domain-modeling CONTEXT-FORMAT for **bcc-plan-spar**.
 
 ## Structure
 

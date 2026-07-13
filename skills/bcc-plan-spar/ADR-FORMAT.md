@@ -1,6 +1,6 @@
 # ADR Format
 
-Adapted from domain-modeling ADR-FORMAT for **plan-spar**.
+Adapted from domain-modeling ADR-FORMAT for **bcc-plan-spar**.
 
 ADRs live in `docs/adr/` as `0001-slug.md`, `0002-slug.md`, …
 
