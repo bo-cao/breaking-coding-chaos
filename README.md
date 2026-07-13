@@ -183,13 +183,13 @@ Exactly **four** skills (no more):
 Open [Agent Skills](https://agentskills.io) CLI — one command for Claude Code, Codex, Cursor, OpenCode, Hermes, OpenClaw, and more:
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y
+npx skills add bo-cao/breaking-coding-chaos -g -y
 ```
 
 Pin to the agents you use:
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y \
+npx skills add bo-cao/breaking-coding-chaos -g -y \
   -a claude-code -a codex -a cursor -a opencode -a hermes-agent -a openclaw
 ```
 
@@ -198,17 +198,17 @@ Then **new session** in each agent → confirm only the four `bcc-*` names.
 ### Claude Code (official plugin)
 
 ```text
-/plugin marketplace add jc/breaking-coding-chaos
+/plugin marketplace add bo-cao/breaking-coding-chaos
 /plugin install bcc@breaking-coding-chaos
 ```
 
-CLI equivalent: `claude plugin marketplace add jc/breaking-coding-chaos` then `claude plugin install bcc@breaking-coding-chaos`.  
+CLI equivalent: `claude plugin marketplace add bo-cao/breaking-coding-chaos` then `claude plugin install bcc@breaking-coding-chaos`.  
 Guide: [docs/install/claude.md](./docs/install/claude.md)
 
 ### Codex
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a codex
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
 ```
 
 Lands in `~/.codex/skills/`. Restart Codex / new thread. Guide: [docs/install/codex.md](./docs/install/codex.md)
@@ -216,10 +216,10 @@ Lands in `~/.codex/skills/`. Restart Codex / new thread. Guide: [docs/install/co
 ### Cursor · OpenCode · Hermes · OpenClaw
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a cursor
-npx skills add jc/breaking-coding-chaos -g -y -a opencode
-npx skills add jc/breaking-coding-chaos -g -y -a hermes-agent
-npx skills add jc/breaking-coding-chaos -g -y -a openclaw
+npx skills add bo-cao/breaking-coding-chaos -g -y -a cursor
+npx skills add bo-cao/breaking-coding-chaos -g -y -a opencode
+npx skills add bo-cao/breaking-coding-chaos -g -y -a hermes-agent
+npx skills add bo-cao/breaking-coding-chaos -g -y -a openclaw
 ```
 
 Guides: [cursor](./docs/install/cursor.md) · [opencode](./docs/install/opencode.md) · [hermes](./docs/install/hermes.md) · [openclaw](./docs/install/openclaw.md)
@@ -300,7 +300,7 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
 </p>
 
 <p align="center">
-  <a href="https://www.star-history.com/#jc/breaking-coding-chaos&Date">
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="./assets/star-history-dark.svg?v=2" />
       <source media="(prefers-color-scheme: light)" srcset="./assets/star-history-light.svg?v=2" />
@@ -310,11 +310,11 @@ This skill suite **draws on related ideas** from the projects below (re-encapsul
 </p>
 
 <p align="center">
-  <a href="https://github.com/jc/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos"><strong>★&nbsp; Star this repo</strong></a>
   &nbsp;·&nbsp;
-  <a href="https://github.com/jc/breaking-coding-chaos/stargazers">Stargazers</a>
+  <a href="https://github.com/bo-cao/breaking-coding-chaos/stargazers">Stargazers</a>
   &nbsp;·&nbsp;
-  <a href="https://www.star-history.com/#jc/breaking-coding-chaos&Date">star-history.com</a>
+  <a href="https://www.star-history.com/#bo-cao/breaking-coding-chaos&Date">star-history.com</a>
 </p>
 
 ---

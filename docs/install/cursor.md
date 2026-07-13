@@ -9,13 +9,13 @@ Install **exactly four** skills into Cursor’s Agent Skills roots
 ## Recommended — Agent Skills CLI
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a cursor
+npx skills add bo-cao/breaking-coding-chaos -g -y -a cursor
 ```
 
 Project-scoped (commit with the repo for the team):
 
 ```bash
-npx skills add jc/breaking-coding-chaos -y -a cursor
+npx skills add bo-cao/breaking-coding-chaos -y -a cursor
 ```
 
 ## From a local clone

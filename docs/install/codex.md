@@ -14,20 +14,20 @@ BCC is **opt-in** for Codex (keeps the global skills list lean).
 Codex loads skills from `~/.codex/skills/` ([Codex skills docs](https://developers.openai.com/codex/skills)). The open skills CLI installs there with `-a codex`:
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a codex
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex
 ```
 
 Optional: also install the shared agents path some setups scan:
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a codex -a amp
+npx skills add bo-cao/breaking-coding-chaos -g -y -a codex -a amp
 # amp / universal-style agents often use ~/.agents/skills or ~/.config/agents/skills
 ```
 
 List first:
 
 ```bash
-npx skills add jc/breaking-coding-chaos --list
+npx skills add bo-cao/breaking-coding-chaos --list
 ```
 
 ## From a local clone

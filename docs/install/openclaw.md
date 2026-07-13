@@ -7,7 +7,7 @@ Project / workspace-style: `skills/` under the workspace
 ## Recommended — Agent Skills CLI
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a openclaw
+npx skills add bo-cao/breaking-coding-chaos -g -y -a openclaw
 ```
 
 ## From a local clone

@@ -1,9 +1,9 @@
 # Install BCC from a local clone: exactly 4 skills (1 main + 3 subs).
 #
 # Prefer the official one-liner when online (no clone needed):
-#   npx skills add jc/breaking-coding-chaos -g -y
+#   npx skills add bo-cao/breaking-coding-chaos -g -y
 # Claude Code plugin:
-#   /plugin marketplace add jc/breaking-coding-chaos
+#   /plugin marketplace add bo-cao/breaking-coding-chaos
 #   /plugin install bcc@breaking-coding-chaos
 #
 # This script is for Grok, offline, or custom paths:
@@ -63,7 +63,7 @@ function Test-AgentHome([string]$path) {
 }
 
 Write-Host "BCC install from clone (4 skills only). Source: $SkillsSrc"
-Write-Host "Tip: online one-liner -> npx skills add jc/breaking-coding-chaos -g -y"
+Write-Host "Tip: online one-liner -> npx skills add bo-cao/breaking-coding-chaos -g -y"
 
 if ($Dest) {
   Write-Host "-> $Dest"

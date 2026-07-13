@@ -12,14 +12,14 @@ Install **exactly four** skills:
 In **Claude Code** (interactive):
 
 ```text
-/plugin marketplace add jc/breaking-coding-chaos
+/plugin marketplace add bo-cao/breaking-coding-chaos
 /plugin install bcc@breaking-coding-chaos
 ```
 
 Or non-interactive CLI:
 
 ```bash
-claude plugin marketplace add jc/breaking-coding-chaos
+claude plugin marketplace add bo-cao/breaking-coding-chaos
 claude plugin install bcc@breaking-coding-chaos
 ```
 
@@ -32,7 +32,7 @@ Then open a **new** session, type `/`, and confirm the four `bcc-*` skills.
 Same open standard used across agents ([vercel-labs/skills](https://github.com/vercel-labs/skills)):
 
 ```bash
-npx skills add jc/breaking-coding-chaos -g -y -a claude-code
+npx skills add bo-cao/breaking-coding-chaos -g -y -a claude-code
 ```
 
 Global path: `~/.claude/skills/<name>/SKILL.md`.
@@ -41,7 +41,7 @@ Project-scoped (share with the team via git):
 
 ```bash
 # from your product repo (not necessarily this one)
-npx skills add jc/breaking-coding-chaos -y -a claude-code
+npx skills add bo-cao/breaking-coding-chaos -y -a claude-code
 ```
 
 ## From a local clone
