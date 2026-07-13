@@ -47,10 +47,18 @@ jobs:
         if: steps.stars.outputs.count != '0'
         env:
           STAR_HISTORY_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
+          GH_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
         run: |
           if [ -n "$STAR_HISTORY_TOKEN" ]; then
-            echo "has_token=true" >> "$GITHUB_OUTPUT"
-            echo "Using repository secret STAR_HISTORY_TOKEN"
+            if gh api -H "Accept: application/vnd.github.star+json" \
+              "repos/${{ github.repository }}/stargazers" --jq 'length' >/dev/null; then
+              echo "has_token=true" >> "$GITHUB_OUTPUT"
+              echo "Using repository secret STAR_HISTORY_TOKEN"
+            else
+              echo "has_token=false" >> "$GITHUB_OUTPUT"
+              echo "::warning::STAR_HISTORY_TOKEN cannot read stargazers. Skipping chart update."
+              echo "Ensure the token is fine-grained with Metadata: Read-only for this repository."
+            fi
           else
             echo "has_token=false" >> "$GITHUB_OUTPUT"
             echo "::warning::STAR_HISTORY_TOKEN secret is not set. Skipping chart update."
@@ -63,10 +71,6 @@ jobs:
           GH_TOKEN: ${{ secrets.STAR_HISTORY_TOKEN }}
         run: |
           set -e
-          # Prove the token can read stargazers before generating
-          gh api -H "Accept: application/vnd.github.star+json" \
-            "repos/${{ github.repository }}/stargazers" --jq 'length' >/dev/null
-
           git clone --depth 1 https://github.com/carsteneu/mystarhistory.git /tmp/msh
           python3 /tmp/msh/mystarhistory.py --repo "${{ github.repository }}" \
             --output assets/star-history-light.svg --title "Star History"
