@@ -1,4 +1,4 @@
-﻿# Refresh star-history SVGs from real GitHub data (post-2026 stargazers API).
+# Refresh star-history SVGs from real GitHub data (post-2026 stargazers API).
 # Skips cleanly while the repo still has 0 stars.
 name: Star History
 
@@ -38,6 +38,26 @@ jobs:
             --output assets/star-history-light.svg --title "Star History"
           python3 /tmp/msh/mystarhistory.py --repo "${{ github.repository }}" \
             --output assets/star-history-dark.svg --title "Star History" --dark
+
+      - name: Strip legend repo label
+        if: steps.stars.outputs.count != '0'
+        run: |
+          python3 - <<'PY'
+          import re
+          from pathlib import Path
+          for p in Path("assets").glob("star-history-*.svg"):
+              t = p.read_text(encoding="utf-8")
+              t2 = re.sub(
+                  r'<rect width="\d+" height="32"[^/]*/>\s*'
+                  r'<rect width="8" height="8"[^/]*/>\s*'
+                  r'<text[^>]*>[^<]*</text>\s*',
+                  '',
+                  t,
+                  count=1,
+              )
+              p.write_text(t2, encoding="utf-8")
+              print("stripped", p)
+          PY
 
       - name: Commit if changed
         if: steps.stars.outputs.count != '0'
