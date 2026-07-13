@@ -6,7 +6,7 @@ Global skills root: `~/.config/opencode/skills/`
 ## Recommended — Agent Skills CLI
 
 ```bash
-npx skills add bo-cao/breaking-coding-chaos -g -y -a opencode
+npx skills add jc/breaking-coding-chaos -g -y -a opencode
 ```
 
 ## From a local clone
@@ -30,7 +30,7 @@ Or install every agent path:
 ## Project-local
 
 ```bash
-npx skills add bo-cao/breaking-coding-chaos -y -a opencode
+npx skills add jc/breaking-coding-chaos -y -a opencode
 # or
 ./install.sh --project
 ```

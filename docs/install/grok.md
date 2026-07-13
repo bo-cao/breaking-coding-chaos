@@ -39,7 +39,7 @@ cp -R skills/bcc-breaking-coding-chaos \
 Also consider the open CLI for Claude/Codex/Cursor/etc.:
 
 ```bash
-npx skills add bo-cao/breaking-coding-chaos -g -y
+npx skills add jc/breaking-coding-chaos -g -y
 ```
 
 ## After install

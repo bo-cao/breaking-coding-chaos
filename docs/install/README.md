@@ -9,18 +9,18 @@ Uses the open [Agent Skills](https://agentskills.io) CLI ([vercel-labs/skills](h
 
 ```bash
 # Global install for every detected agent
-npx skills add bo-cao/breaking-coding-chaos -g -y
+npx skills add jc/breaking-coding-chaos -g -y
 ```
 
 ```bash
 # Or only the agents you use
-npx skills add bo-cao/breaking-coding-chaos -g -y \
+npx skills add jc/breaking-coding-chaos -g -y \
   -a claude-code -a codex -a cursor -a opencode -a hermes-agent -a openclaw
 ```
 
 ```bash
 # List skills in this repo without installing
-npx skills add bo-cao/breaking-coding-chaos --list
+npx skills add jc/breaking-coding-chaos --list
 ```
 
 Then **start a new session** in each agent and confirm the four `bcc-*` names.
@@ -36,9 +36,9 @@ Official CLI reference: [skills.sh](https://skills.sh) · [vercel-labs/skills](h
 
 | Agent | Preferred install | Details |
 |-------|-------------------|---------|
-| **Claude Code** | `/plugin marketplace add bo-cao/breaking-coding-chaos` then `/plugin install bcc@breaking-coding-chaos` · or `npx skills add … -a claude-code -g -y` | [claude.md](./claude.md) |
-| **Codex** | `npx skills add bo-cao/breaking-coding-chaos -g -y -a codex` | [codex.md](./codex.md) |
-| **Cursor** | `npx skills add bo-cao/breaking-coding-chaos -g -y -a cursor` | [cursor.md](./cursor.md) |
+| **Claude Code** | `/plugin marketplace add jc/breaking-coding-chaos` then `/plugin install bcc@breaking-coding-chaos` · or `npx skills add … -a claude-code -g -y` | [claude.md](./claude.md) |
+| **Codex** | `npx skills add jc/breaking-coding-chaos -g -y -a codex` | [codex.md](./codex.md) |
+| **Cursor** | `npx skills add jc/breaking-coding-chaos -g -y -a cursor` | [cursor.md](./cursor.md) |
 | **Grok** | Clone + `.\install.ps1` / `./install.sh` → `~/.grok/skills/` | [grok.md](./grok.md) |
 | **OpenCode** | `npx skills add … -a opencode -g -y` | [opencode.md](./opencode.md) |
 | **Hermes** | `npx skills add … -a hermes-agent -g -y` | [hermes.md](./hermes.md) |

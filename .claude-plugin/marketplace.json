@@ -1,7 +1,7 @@
 {
   "name": "breaking-coding-chaos",
   "owner": {
-    "name": "bo-cao"
+    "name": "jc"
   },
   "description": "Human-in-the-loop dual-loop skills: throughline, plan-spar, clean-cut",
   "metadata": {
@@ -16,10 +16,10 @@
       "version": "1.0.0",
       "strict": false,
       "author": {
-        "name": "bo-cao"
+        "name": "jc"
       },
-      "homepage": "https://github.com/bo-cao/breaking-coding-chaos",
-      "repository": "https://github.com/bo-cao/breaking-coding-chaos",
+      "homepage": "https://github.com/jc/breaking-coding-chaos",
+      "repository": "https://github.com/jc/breaking-coding-chaos",
       "license": "MIT",
       "keywords": ["skills", "planning", "hitl", "dual-loop"],
       "category": "productivity",

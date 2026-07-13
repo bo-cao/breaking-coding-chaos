@@ -8,7 +8,7 @@ Each skill is a directory with `SKILL.md` (BCC installs **flat** at the skills r
 ## Recommended — Agent Skills CLI
 
 ```bash
-npx skills add bo-cao/breaking-coding-chaos -g -y -a hermes-agent
+npx skills add jc/breaking-coding-chaos -g -y -a hermes-agent
 ```
 
 ## From a local clone
