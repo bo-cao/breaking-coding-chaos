@@ -1,8 +1,8 @@
 ---
 name: bcc-plan-spar
 description: >
-  BCC align+lock+review PLAN.md for one slice (no product code). Slash: /bcc-plan-spar · chat: bcc:plan-spar · "lock PLAN" · spar the plan. Args: grill_rounds, rounds, review=self|subagent|codex|auto|off. Hand off to bcc-clean-cut after human APPROVE.
-argument-hint: "slash: /bcc-plan-spar · chat: bcc:plan-spar · [topic] [grill_rounds=N] [rounds=N] [review=…]"
+  BCC align+lock+review PLAN.md for one slice (no product code). Slash: /bcc-plan-spar · chat: bcc:plan-spar · "lock PLAN" · spar the plan. Args: rounds=N (auto-review cap), review=self|subagent|cli|auto|off. Grill until clear enough (no default Q&A quota). Hand off to bcc-clean-cut after human APPROVE.
+argument-hint: "slash: /bcc-plan-spar · chat: bcc:plan-spar · [topic] [rounds=N] [review=…]"
 metadata:
   short-description: "BCC plan align + review"
 ---
@@ -11,9 +11,9 @@ metadata:
 
 **Job:** solid coding contract for one slice —
 
-1. **Human grill** (bounded Q&A) → clear sub-plan intent  
+1. **Human grill** (Q&A until **clear enough** — no default turn quota) → clear sub-plan intent  
 2. **Lock** `PLAN.md` (+ `CONTEXT` / ADRs)  
-3. **Auto review** (configurable rounds, multi-backend) → live results → main agent **iterates PLAN**  
+3. **Auto review** (**`rounds`** = review budget, multi-backend) → live results → main agent **iterates PLAN**  
 4. **Human final gate** → APPROVE / amend / stop  
 5. Hand off to **`bcc-clean-cut`** (implement — not this skill)
 
@@ -86,15 +86,17 @@ Only then: scope hardpoint, then Phase 1 grill / lock.
 
 ## Tunables
 
-Parse from invocation (e.g. `/bcc-plan-spar auth grill_rounds=8 rounds=3 review=auto`):
+Parse from invocation (e.g. `/bcc-plan-spar auth rounds=3 review=auto`):
 
 | Arg | Default | Meaning |
 |-----|---------|---------|
-| `grill_rounds` / `MAX_GRILL_ROUNDS` | `10` | Soft cap on **human Q&A turns** (one user answer = 1 turn). Not a minimum — early exit allowed (below). |
-| `rounds` / `MAX_REVIEW_ROUNDS` | `3` | **Auto review rounds** after PLAN is locked. `0` = skip auto review (human gate still required) |
+| **`rounds`** / `MAX_REVIEW_ROUNDS` | `3` | **Only budgeted loop:** auto-**review** rounds after PLAN is locked. Set at spar start. `0` = skip auto review (human gate still required). |
 | `review` | `auto` when `rounds>0`, else `off` | Review backend (see below) |
 | `PLAN_FILE` | `PLAN.md` | Coding brief path |
 | `LOG_FILE` | `PLAN-REVIEW-LOG.md` | Append-only live review transcript |
+
+**Not a tunable by default:** Phase 1 human Q&A has **no default turn quota**. Grill until the agent judges **clear enough** (or the human locks / stops).  
+Optional override only if the user explicitly passes `grill_rounds=N` / `MAX_GRILL_ROUNDS=N` — treat as a soft safety ceiling, not a target to fill. Do **not** invent or announce a default grill cap.
 
 ### `review` modes (simplified)
 
@@ -108,9 +110,9 @@ Parse from invocation (e.g. `/bcc-plan-spar auth grill_rounds=8 rounds=3 review=
 
 Do **not** require multi-agent products or cross-org setups. One host + optional subagent/CLI is enough.
 
-Echo once before Act 1:
+Echo once before Act 1 (grill has no round count):
 
-`bcc-plan-spar · topic=… · grill_rounds=10 · review_rounds=3 · review=auto · PLAN_FILE=PLAN.md · LOG_FILE=PLAN-REVIEW-LOG.md`
+`bcc-plan-spar · topic=… · review_rounds=3 · review=auto · PLAN_FILE=PLAN.md · LOG_FILE=PLAN-REVIEW-LOG.md`
 
 ---
 
@@ -119,9 +121,9 @@ Echo once before Act 1:
 ```text
 Preflight  Workflow fitness (throughline? PLAN? right skill?) — ask if unsure
 Phase 0    Scope slice (+ read throughline)
-Phase 1    Human grill ↔ agent (≤ grill_rounds) + CONTEXT/ADR
-           → lock PLAN.md when clear enough
-Phase 2    Auto review loop (≤ rounds)  [unless review=off or rounds=0]
+Phase 1    Human grill ↔ agent until clear enough (no default Q&A quota)
+           + CONTEXT/ADR → lock PLAN.md
+Phase 2    Auto review loop (≤ rounds from invocation)  [unless review=off or rounds=0]
            each round: REVIEWER → VERDICT REVISE|APPROVED → live log
            if REVISE: BUILDER updates PLAN; if APPROVED: stop auto loop early OK
            fallbacks if backend fails (保底)
@@ -161,7 +163,7 @@ When starting a **new** hardpoint: rewrite `PLAN.md` for that work; move finishe
 ### Purpose
 
 Obtain **explicit information** from the human for this **sub-plan** — not silent guessing.  
-Default budget **10 turns** (`grill_rounds=10`). That is a **ceiling**, not a quota to fill.
+**Stop when clear enough** — there is **no default Q&A round budget**. Prefer few high-signal questions; never pad to fill a quota.
 
 ### Interview rules
 
@@ -169,17 +171,16 @@ Default budget **10 turns** (`grill_rounds=10`). That is a **ceiling**, not a qu
 - Each question: give a **recommended answer**.  
 - Facts in codebase → look up; do not ask.  
 - Decisions → user.  
-- Track `GRILL_TURN`. Never silently exceed `MAX_GRILL_ROUNDS`.
+- Do **not** track or announce “turn N of 10” (or any default cap).  
+- Optional: only if user set `grill_rounds=N`, treat as soft ceiling; at that ceiling, summarize and ask lock / continue / stop.
 
-### Early exit & interrupt (required)
+### Stop & lock triggers (required)
 
 | Who | Can do |
 |-----|--------|
-| **Human** | Interrupt **anytime**: “够了 / lock PLAN / 写 PLAN / 进入 review / stop grilling” → stop Q&A and lock (or stop) as asked. Do not insist on remaining turns. |
-| **Agent** | When **clear-enough** criteria already hold **before** the cap: **proactively remind** the user, e.g. *“Intent looks clear enough to lock PLAN.md and start auto review — lock now, keep grilling, or adjust?”* Do **not** lock silently without user go-ahead (unless user already said “lock when ready”). |
-| **Cap hit** | At `GRILL_TURN == MAX_GRILL_ROUNDS`: pause; summarize resolved + open branches; ask: **lock PLAN now** / raise cap / stop. |
-
-Prefer fewer high-signal questions over burning the full 10.
+| **Agent** | When **clear-enough** criteria hold: **proactively propose lock**, e.g. *“这块已经够清楚，可以锁 PLAN 并进入 review（rounds=…）——现在锁、继续问、还是改？”* Do **not** keep asking “for completeness.” Do **not** lock silently unless user already said “lock when ready” / “够了就锁”. |
+| **Human** | Interrupt **anytime**: “够了 / lock PLAN / 写 PLAN / 进入 review / stop” → lock or stop as asked. Do not keep grilling. |
+| **Optional cap** | Only if user set `grill_rounds=N` and it is hit → same as agent propose: summarize open branches; ask lock / continue / stop. |
 
 ### Domain (domain-modeling)
 
@@ -189,7 +190,7 @@ Prefer fewer high-signal questions over burning the full 10.
 
 ### Clear enough → lock `PLAN.md`
 
-All of (or user forces lock / interrupt lock):
+Agent judges clear enough when **all** of the following hold (or user forces lock / interrupt lock):
 
 1. Goal one paragraph  
 2. Concrete numbered approach  
@@ -360,19 +361,24 @@ bcc-plan-spar (align + auto review + human APPROVE)
 
 ```text
 /bcc-plan-spar redesign checkout
-→ grill up to 10 (interrupt/early “clear enough?” OK); lock PLAN; 3× auto review; human decides bcc-clean-cut
+→ grill until clear enough; lock PLAN; default rounds=3 auto review; human decides bcc-clean-cut
 
-/bcc-plan-spar payments grill_rounds=8 rounds=5 review=codex
-→ 8 human Q&A max; 5 Codex rounds (fallback self); human gate
+/bcc-plan-spar payments rounds=5 review=cli
+→ grill until clear enough; 5 review rounds via CLI (fallback self); human gate
 
 /bcc-plan-spar slice-x rounds=3 review=subagent
-→ subagent reviewer; fallback chain on failure
+→ grill until clear enough; subagent reviewer ×3 max; fallback chain on failure
 
 /bcc-plan-spar hotfix rounds=0 review=off
-→ human grill + lock only; no auto review; still human gate before clean-cut
+→ grill until clear enough + lock only; no auto review; still human gate before clean-cut
+
+/bcc-plan-spar auth rounds=2 grill_rounds=6
+→ optional soft grill ceiling 6 (user-set only); review rounds=2
 ```
 
-Chat: "bcc-plan-spar", "对齐并锁 PLAN", "spar the plan with codex review".
+Chat: "bcc-plan-spar", "对齐并锁 PLAN", "spar the plan rounds=5".
+
+**`rounds` is the spar review budget** — the number to set when starting spar. Grill is not round-counted by default.
 
 ---
 
@@ -381,18 +387,19 @@ Chat: "bcc-plan-spar", "对齐并锁 PLAN", "spar the plan with codex review".
 1. **Preflight first**; **throughline (`plans.md`) before plan-spar** (hard).  
 2. **Single `PLAN.md`** updated in place; global progress only in the three throughline files.  
 3. Human grill before lock (unless draft/user forces).  
-4. Auto review when `rounds>0`; backends fail → **fallback**.  
-5. Live chat + log every review round.  
-6. Only main agent writes PLAN after REVISE; external reviewers read-only.  
-7. **Never implement product code** here.  
-8. Human final decision before bcc-clean-cut.  
-9. Phase 1: 10-turn ceiling; interrupt / early “clear enough?” OK.  
-10. Caps terminate loops; never fake APPROVED.  
+4. Phase 1: **no default grill quota** — stop when clear enough (or human lock/stop).  
+5. **`rounds`** budgets Phase 2 auto review only; backends fail → **fallback**.  
+6. Live chat + log every review round.  
+7. Only main agent writes PLAN after REVISE; external reviewers read-only.  
+8. **Never implement product code** here.  
+9. Human final decision before bcc-clean-cut.  
+10. Review caps terminate Phase 2 loops; never fake APPROVED.  
 11. Infer next steps from context/docs; **suggest** to user — no heavy formal state machine.
 
 ## What NOT to do
 
 - Don't run plan-spar before throughline.  
+- Don't invent a default grill turn budget (e.g. “10 rounds”) or pad questions to fill one.  
 - Don't create `PLAN-01.md` / per-case PLAN trees for global bookkeeping.  
 - Don't skip preflight; don't code after auto APPROVED alone.  
 - Don't invent CLI review success; fallback to self.  

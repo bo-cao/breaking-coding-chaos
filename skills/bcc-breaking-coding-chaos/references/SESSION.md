@@ -18,9 +18,12 @@ Create `.bcc/` lazily when first writing.
   "approved_at": "ISO-8601 or empty",
   "approved_for": "clean-cut | none",
   "status": "idle | planning | locked | approved | coding | done",
+  "wrap_up": "none | offered | done | skipped",
   "notes": "optional short note"
 }
 ```
+
+`wrap_up` (optional, default treat missing as `none`): blocks **repeat** endeavor wrap-up offers. Prefer also writing `progress.md` markers (`### Wrap-up offered` / `### Endeavor close`) as the durable source of truth.
 
 ## Who writes
 
@@ -31,6 +34,9 @@ Create `.bcc/` lazily when first writing.
 | Explicit skip-gate “just implement this PLAN” | bcc-plan-spar or bcc-clean-cut after confirm | same as APPROVE |
 | bcc-clean-cut starts coding | bcc-clean-cut | `status=coding` (optional) |
 | bcc-clean-cut verify pass | bcc-clean-cut | `status=done`; set `approved_for=none` (consume one-shot approve) |
+| First wrap-up offer (map fully complete only) | clean-cut or throughline | `wrap_up=offered` |
+| Global verify done / user skips wrap-up | throughline or clean-cut | `wrap_up=done` or `skipped` |
+| New endeavor / user re-opens map with new hardpoints | throughline or plan-spar | `wrap_up=none` when map is no longer fully complete |
 | New slice / abandon | bcc-plan-spar or user via status | reset approve fields; update `active_slice` |
 
 ## Who reads
@@ -40,6 +46,7 @@ Create `.bcc/` lazily when first writing.
 | bcc-clean-cut preflight | `approved_for=clean-cut` **and** `plan_sha256` matches current PLAN → `human_APPROVE=yes`. Mismatch → PLAN changed after approve → re-approve or plan-spar. |
 | bcc-plan-spar preflight | See active slice vs user topic; avoid overwriting wrong slice. |
 | bcc-breaking-coding-chaos (status mode) | Show status + suggest next skill. |
+| wrap-up gate (throughline / clean-cut) | `wrap_up` in `offered`/`done`/`skipped` → **do not** auto re-offer. |
 
 ## Hash
 

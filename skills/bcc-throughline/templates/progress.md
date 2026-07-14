@@ -21,14 +21,5 @@
 |-----------|-------|---------|------------|
 | | | 1 | |
 
-## 5-Question Reboot Check
-| Question | Answer |
-|----------|--------|
-| Where am I? | |
-| Where am I going? | |
-| What's the goal? | |
-| What have I learned? | See findings.md |
-| What have I done? | See above |
-
 ---
-*Update after each phase or hardpoint round.*
+*Update after each phase or hardpoint round. (Agent may use an internal 5-question check when resuming; do not paste that table to the user by default.)*

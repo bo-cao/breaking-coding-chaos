@@ -29,15 +29,25 @@ Claude plugin (inside Claude Code):
 /plugin install bcc@breaking-coding-chaos
 ```
 
-## Invocable skills
+## Commands
 
-| Slash | Role |
+Pipeline: throughline → plan-spar → **APPROVE** → clean-cut.  
+**Mode A** (all-in-one): `/bcc-breaking-coding-chaos`. **Mode B** (step-by-step): start at `/bcc-throughline`.
+
+| Slash | Args |
 |-------|------|
-| `/bcc-breaking-coding-chaos` | Main (Mode A or status) |
-| `/bcc-throughline` | Global map |
-| `/bcc-plan-spar` | PLAN align + review |
-| `/bcc-clean-cut` | Minimal implement |
+| `/bcc-breaking-coding-chaos` | Mode A · `status` · optional `rounds=N` `review=…` |
+| `/bcc-throughline` | Mode B entry · idea / rebalance |
+| `/bcc-plan-spar` | **`rounds=N`** review cap (default `3`, `0`=skip) · `review=auto\|self\|subagent\|cli\|off` |
+| `/bcc-clean-cut` | `lite` · `full` · `ultra` |
 
-No separate `/bcc` or `/bcc-status` skills — status is built into the main skill.
+```text
+# Mode A
+/bcc-breaking-coding-chaos implement my idea
+# Mode B
+/bcc-throughline
+/bcc-plan-spar HP1 rounds=3
+/bcc-clean-cut
+```
 
-Full matrix: [docs/install/README.md](./docs/install/README.md)
+Full matrix: [docs/install/README.md](./docs/install/README.md) · [README.md](./README.md) · [简体中文](./READMEs/README.zh-CN.md) · [繁體中文](./READMEs/README.zh-TW.md)

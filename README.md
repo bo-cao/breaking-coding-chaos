@@ -93,83 +93,52 @@ Under it, **plan-spar** and **clean-cut** cooperate on **one current sub-task** 
 - **Support** — `CONTEXT.md` and `docs/adr/*`: domain words and hard-to-reverse decisions.
 - **Session (optional)** — `.bcc/session.json`: cross-chat APPROVE + plan hash for clean-cut preflight.
 
-### Pipeline by act
+### How to use
 
-0. **Map** (`bcc-throughline`) — goal, phases, hardpoint map; status and reprioritize. You approve or edit the map.  
-1. **Brief** (`bcc-plan-spar`) — short human Q&A; lock the single living plan (plus CONTEXT / ADR as needed).  
-2. **Stress** (`bcc-plan-spar`) — adversarial review (self / subagent / optional CLI); revise the plan. You **APPROVE implement**, amend, or stop.  
-3. **Ship** (`bcc-clean-cut`) — minimal diff, verify against the plan, **mandatory writeback** to throughline.
+Same pipeline for both modes: **throughline → plan-spar → you APPROVE → clean-cut → writeback**.
 
-A few rules that matter:
+| Mode | Entry | What happens |
+|------|--------|----------------|
+| **A — all-in-one** | `/bcc-breaking-coding-chaos` | Agent runs the full pipeline for you |
+| **B — step by step** | `/bcc-throughline` first | You drive each step: throughline → plan-spar → clean-cut |
 
-- Auto-review `VERDICT: APPROVED` is **not** permission to code — only your implement gate is.  
-- There is **one** living plan file, not a pile of per-slice plan files; endeavor history lives in throughline.  
-- **plan-spar always after throughline** (hard preflight).  
-- Clean-cut without writeback is **incomplete**.
+| Command | Use | Args |
+|---------|-----|------|
+| `/bcc-breaking-coding-chaos` | Mode A, or `status` | goal · `status` · optional `rounds=N` `review=…` |
+| `/bcc-throughline` | Mode B start: map / rebalance / resume | idea or “where are we” |
+| `/bcc-plan-spar` | Align, lock `PLAN.md`, review | **`rounds=N`** review cap (default `3`, `0`=skip) · `review=auto\|self\|subagent\|cli\|off` |
+| `/bcc-clean-cut` | Code after you APPROVE | `lite` · `full` · `ultra` |
 
-### Skills list
+- plan-spar Q&A: until clear (or you lock/stop). No default question count.  
+- `rounds`: **review** only, after PLAN is locked.
 
-- **`bcc-breaking-coding-chaos`** — main entry: Mode A chain, or a short status + next step.  
-- **`bcc-throughline`** — global cockpit.  
-- **`bcc-plan-spar`** — align and review the current plan.  
-- **`bcc-clean-cut`** — minimal implement + writeback.
-
-Slash ids use `bcc-…`. Chat may use `bcc:…` for readability (`argument-hint` on each skill).
-
-### Two usage modes
-
-| | **Mode A — Agent chains** | **Mode B — You control** |
-|--|---------------------------|---------------------------|
-| **Entry** | `/bcc-breaking-coding-chaos` | `/bcc-throughline` |
-| **Order** | Thin orchestrator loads children in sequence | You invoke each step **in hard order** |
-| **Best for** | First use, large goals | Status checks, precise control |
-
-Same four skills, same files. Mixing is fine.
-
-**Mode B order (required):** always **throughline → plan-spar → (you APPROVE) → clean-cut → writeback to throughline**.  
-You *choose when* to call each skill, but you do **not** skip the map, spar a plan before throughline exists, or ship code before implement APPROVE. After a slice ships, return to throughline, then plan-spar again for the next slice.
-
-### How to invoke
-
-You do **not** have to paste the whole dual-loop ritual by hand every time. Use whichever path your host supports:
-
-1. **Call the skill explicitly** (recommended when available) — slash or skills UI, e.g. `/bcc-throughline`, `/bcc-plan-spar`, `/bcc-clean-cut`, `/bcc-breaking-coding-chaos`.  
-2. **Natural language** — many agents **auto-load a skill when your prompt matches its description**, e.g. “run throughline on this project”, “plan-spar this slice”, “clean-cut implement the plan”.  
-
-**Requirement:** the agent must **index skills and be allowed to call them**. If auto-routing is weak, disabled, or the skill is not installed, **name the skill yourself** (slash / UI / “use skill bcc-…”). Do not assume every chat host will invent the dual loop without a skill load.
-
----
-
-## Who it’s for
-
-BCC is for anyone who needs agents to **finish real work under hard constraints** — not just generate plausible code. The same dual loop helps different roles in different ways:
-
-- **Researchers & students** — Pin protocol, hyperparameters, and acceptance checks into a living brief; keep multi-week paper/repo progress on disk; ship one verifiable experiment or pipeline slice at a time.  
-- **Engineers & tech leads** — Keep design trade-offs and “what’s done” visible across long multi-module sessions; one active coding brief so the team does not get three competing implementations.  
-- **Indie builders & founders** — Turn a concrete product idea into auditable sub-tasks; stop the agent from reinventing the app every conversation.  
-- **Repo maintainers** — Global map plus one hard slice at a time; less thrash after compaction, context loss, or switching tools.  
-- **Multi-agent users** (Claude / Codex / Cursor / …) — Same four skills, same dual loop — one control plane across runtimes.
-
-**Strong fit:** multi-step or multi-week work; high-stakes slices (bugs, migrations, experiments that must match a brief); resume after `/clear` or agent switches.  
-**Weak / wrong tool:** vibe one-liners, throwaway scripts, or no concrete idea yet — BCC implements ideas; it does not invent products.
-
----
-
-## Worked example: multi-slice + HITL
-
-Plan **four** cases; ship **two** this session.
+**Mode A**
 
 ```text
-bcc-throughline          →  map 01–04; this session ships 01+02 only
-bcc-plan-spar 01         →  lock PLAN → review → YOU approve implement
-bcc-clean-cut 01         →  code + verify → writeback
-bcc-plan-spar 02         →  lock PLAN → review (may REVISE) → YOU approve
-bcc-clean-cut 02         →  code + verify → writeback
-bcc-throughline          →  01/02 complete; 03/04 still pending
+/bcc-breaking-coding-chaos implement my idea
+/bcc-breaking-coding-chaos status
 ```
 
-You own the gates: map scope, lock PLAN, implement APPROVE, and reprioritize.  
-The agent owns grilling, artifacts, review, cut after APPROVE, and writeback.
+**Mode B**
+
+```text
+/bcc-throughline
+/bcc-plan-spar HP1 rounds=3
+# you APPROVE implement
+/bcc-clean-cut
+/bcc-plan-spar hotfix rounds=0 review=off
+```
+
+### Example (Mode B — 2 of 4 slices)
+
+```text
+/bcc-throughline              → map 01–04
+/bcc-plan-spar 01 rounds=3    → lock PLAN → review ≤3 → YOU approve
+/bcc-clean-cut                → code + verify → writeback
+/bcc-plan-spar 02 rounds=3
+/bcc-clean-cut
+/bcc-throughline              → 01/02 done; 03/04 pending
+```
 
 ---
 

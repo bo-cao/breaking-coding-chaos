@@ -138,7 +138,11 @@ Pattern: `done → skipped: X, add when Y` unless user asked for a full report.
 1. Trim/约减 `PLAN.md`.  
 2. **Mandatory throughline writeback** per [WRITEBACK.md](../bcc-breaking-coding-chaos/references/WRITEBACK.md) — update `progress.md` (session block + tests), `plans.md` hardpoint status, `findings.md` only if global learning.  
 3. Consume session approve (`approved_for=none`, `status=done`).  
-4. Only then say the slice is done; offer main-skill status / next hardpoint / stop.
+4. Say the **slice** is done.  
+5. **Next (strict):**
+   - If any throughline hardpoint still open → only mention next hardpoint (or stop). **No** wrap-up talk.  
+   - If **Gate A** (every hardpoint `complete`) **and** **Gate B** (not yet offered/closed) per [bcc-throughline](../bcc-throughline/SKILL.md) *Endeavor wrap-up* → **one** wrap-up offer (write `### Wrap-up offered` first, then ask global verify / what kind / skip).  
+   - If already offered/closed → do not re-ask.
 
 **Incomplete without writeback.** If writeback fails, fix files before claiming success.
 

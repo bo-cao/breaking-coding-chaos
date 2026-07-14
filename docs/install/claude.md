@@ -64,10 +64,10 @@ cp -R skills/bcc-breaking-coding-chaos \
 
 1. **New Claude Code session** (skills re-index on start).  
 2. Type `/` — confirm four `bcc-*` entries.  
-3. Try:
-   - `/bcc-throughline` — map / status  
-   - `/bcc-breaking-coding-chaos` — full Mode A chain  
-   - `/bcc-plan-spar` then `/bcc-clean-cut` — after throughline exists  
+3. Try: `/bcc-throughline` → `/bcc-plan-spar … rounds=3` → (APPROVE) → `/bcc-clean-cut`  
+   Or: `/bcc-breaking-coding-chaos` / `status`  
+
+See [README.md](../../README.md).
 
 ## Uninstall
 

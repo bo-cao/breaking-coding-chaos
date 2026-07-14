@@ -44,9 +44,13 @@ npx skills add bo-cao/breaking-coding-chaos -g -y
 
 ## After install
 
-New Grok session. Invoke:
+New Grok session:
 
-- `/bcc-breaking-coding-chaos`
-- `/bcc-throughline`
-- `/bcc-plan-spar`
-- `/bcc-clean-cut`
+```text
+/bcc-throughline
+/bcc-plan-spar … rounds=3
+/bcc-clean-cut
+/bcc-breaking-coding-chaos status
+```
+
+See [README.md](../../README.md).
