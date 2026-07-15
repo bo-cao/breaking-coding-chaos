@@ -44,6 +44,21 @@ That is **breaking-coding-chaos** (BCC).
 
 ---
 
+## Who it’s for
+
+BCC is for anyone who needs agents to **finish real work under hard constraints** — not just generate plausible code. The same dual loop helps different roles in different ways:
+
+- **Researchers & students** — Pin protocol, hyperparameters, and acceptance checks into a living brief; keep multi-week paper/repo progress on disk; ship one verifiable experiment or pipeline slice at a time.  
+- **Engineers & tech leads** — Keep design trade-offs and “what’s done” visible across long multi-module sessions; one active coding brief so the team does not get three competing implementations.  
+- **Indie builders & founders** — Turn a concrete product idea into auditable sub-tasks; stop the agent from reinventing the app every conversation.  
+- **Repo maintainers** — Global map plus one hard slice at a time; less thrash after compaction, context loss, or switching tools.  
+- **Multi-agent users** (Claude / Codex / Cursor / …) — Same four skills, same dual loop — one control plane across runtimes.
+
+**Strong fit:** multi-step or multi-week work; high-stakes slices (bugs, migrations, experiments that must match a brief); resume after `/clear` or agent switches.  
+**Weak / wrong tool:** vibe one-liners, throwaway scripts, or no concrete idea yet — BCC implements ideas; it does not invent products.
+
+---
+
 ## Where these ideas come from
 
 Agentic coding already has a few well-tested patterns: **context on disk**, **alignment before code**, and **minimal diffs**. BCC is a **human-in-the-loop control plane** that brings those strands into one dual loop — not a clone of any single project, and not an official endorsement by the authors below.
