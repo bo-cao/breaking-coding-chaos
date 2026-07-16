@@ -7,7 +7,8 @@ Not a glossary, not the global endeavor log.
 
 - **Global** phases / hardpoint map / session history → only `plans.md` / `progress.md` / `findings.md`.  
 - **No** per-slice PLAN file tree: when the active hardpoint changes, **rewrite this same `PLAN.md`**.  
-- bcc-plan-spar locks/spars; bcc-clean-cut executes and 约减. Keep short.
+- bcc-plan-spar locks/spars (only place to refine design).  
+- bcc-clean-cut **executes**; may check off / drop *completed* checklist rows only — **no** mid-cut redesign of Goal/Approach/decisions. Keep short.
 
 Do **not** write coding checklists into the throughline trio.
 

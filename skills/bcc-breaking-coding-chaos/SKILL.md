@@ -100,8 +100,8 @@ BCC status
 ## Hard workflow rules (remind only)
 
 1. **throughline before plan-spar**  
-2. **One `PLAN.md`**, updated in place; global progress only in the three throughline files  
-3. **Human APPROVE** before clean-cut (session file optional help)  
+2. **One `PLAN.md`**, updated in place by plan-spar; global progress only in the three throughline files  
+3. **Human APPROVE** before clean-cut (session file optional help); **cut freezes PLAN design** (progress 约减 only)  
 4. **Writeback** after clean-cut success is mandatory ([WRITEBACK.md](./references/WRITEBACK.md))  
 5. Infer next step from docs + chat; **suggest** to user — no heavy formal state machine  
 6. Plan-spar: grill until **clear enough** (no default Q&A rounds); **`rounds`** budgets auto-review only  

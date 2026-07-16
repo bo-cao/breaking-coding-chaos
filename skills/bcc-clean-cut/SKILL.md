@@ -9,10 +9,10 @@ metadata:
 
 # bcc-clean-cut
 
-**Job:** ship the **shortest correct code** that satisfies the active `PLAN.md`, then verify and 约减 the checklist.
+**Job:** ship the **shortest correct code** that satisfies the active `PLAN.md`, then verify and **progress-only** 约减 the checklist.
 
 **Deep source:** `ponytail` SKILL.md (coding ladder only — not review/audit family).  
-**Does not:** interview the user for domain design, write ADRs, or adversarial-review the plan — do that in **`bcc-plan-spar`** first.
+**Does not:** interview the user for domain design, write ADRs, adversarial-review the plan, or **refine PLAN design while coding** — do that in **`bcc-plan-spar`** first.
 
 ---
 
@@ -77,13 +77,28 @@ Only then: optionally set session `status=coding` → read code flow → ladder 
 2. Trace the real code flow before editing.  
 3. PLAN is the contract — no invented scope.
 
+## PLAN freeze (execute, don't refine)
+
+After human APPROVE, `PLAN.md` is a **frozen contract** for design content.
+
+| Allowed during cut | Forbidden during cut |
+|--------------------|----------------------|
+| Implement within Goal / Approach / checklist / Verification | Rewrite Goal, Approach, Key decisions, Out of scope, Verification *design* |
+| Check off `[ ]` → `[x]` only after implement + verify | Add new checklist items, “improve” wording of the brief, expand scope |
+| **约减 progress only:** remove *completed* checklist rows / finished bulk that is already done | Mid-cut plan polish, second-guess architecture into the file |
+| Note learnings in `progress.md` / `findings.md` | Quietly change the brief so APPROVE no longer matches reality |
+
+**Conflict / plan wrong / can't meet Verification:** **stop coding** → say the conflict in one short line → **`bcc-plan-spar`** (or user amends PLAN) → **re-APPROVE**. Do not “fix the plan while shipping.”
+
+No extra user ceremony: same gates as today; agent just won't rewrite the brief while coding.
+
 ## Intensity (default **full**)
 
 | Level | Behavior |
 |-------|----------|
 | **lite** | Build what PLAN asks; name a lazier alternative in one line. |
 | **full** | Ladder enforced. Shortest correct diff. Default. |
-| **ultra** | YAGNI extremist; challenge extra PLAN items in the same breath if they look speculative. |
+| **ultra** | YAGNI extremist on the **code**. May *mention* a speculative checklist item in chat; **still execute PLAN as approved** unless user sends you back to plan-spar. Never edit design sections to “improve” the plan. |
 
 Echo: `bcc-clean-cut · full · PLAN.md`
 
@@ -119,12 +134,12 @@ Off only if user says stop bcc-clean-cut / normal mode for coding style (suite m
 
 Trust-boundary validation, data-loss handling, security, a11y basics, anything PLAN/user explicitly requires. Never lazy about understanding.
 
-## Verify + PLAN 约减
+## Verify + PLAN 约减 (progress only)
 
 - Run checks from `PLAN.md` Verification + checklist.  
 - Mark items complete **only after** implement + verify.  
 - Non-trivial logic: one minimal runnable check if none exist (no test framework sprawl).  
-- **约减 `PLAN.md`:** drop finished bulk; keep only remaining work (history → throughline `progress.md` when suite active).
+- **约减 `PLAN.md` (progress only):** check off done items; drop *completed* bulk; keep open checklist + unchanged Goal/Approach/decisions/Verification design. Narrative history → throughline `progress.md`, not a redesign of the brief.
 
 ## Output
 
@@ -159,16 +174,19 @@ Pattern: `done → skipped: X, add when Y` unless user asked for a full report.
 ## Hard rules
 
 1. **Preflight first** — PLAN + human APPROVE (chat or valid session).  
-2. PLAN is the **single** current coding contract (updated in place across hardpoints).  
+2. PLAN is the **single** coding contract for the active slice; **across hardpoints** plan-spar rewrites that same file — **during cut, design content is frozen** (progress 约减 only).  
 3. Read fully, then climb the ladder.  
 4. No plan-review theater — that is bcc-plan-spar.  
 5. Global progress **only** via throughline trio — **writeback mandatory** on success.  
 6. If unsure → **ask the user**; never invent APPROVE.  
-7. Infer fit from docs/context; suggest next skill — no formal state machine required.
+7. Infer fit from docs/context; suggest next skill — no formal state machine required.  
+8. **Execute, don't refine** — design change → stop → plan-spar + re-APPROVE.
 
 ## What NOT to do
 
 - Don't skip preflight or skip **writeback**.  
 - Don't treat auto-review APPROVED as human APPROVE.  
 - Don't put global phase history into PLAN.md.  
-- Don't re-open unbounded product design mid-cut.
+- Don't re-open unbounded product design mid-cut.  
+- Don't rewrite Goal / Approach / decisions / Verification design while coding.  
+- Don't “improve” PLAN mid-cut to match what you feel like implementing.
