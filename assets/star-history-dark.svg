@@ -21,9 +21,9 @@
   <text x="50%" y="525" fill="#e6edf3" font-size="17" font-family="Handlee, cursive" font-weight="bold">Date</text>
   <line x1="90" y1="80" x2="90" y2="463" stroke="#30363d" stroke-width="2.5" filter="url(#xkcdify)"/>
   <line x1="90" y1="463" x2="765" y2="463" stroke="#30363d" stroke-width="2.5" filter="url(#xkcdify)"/>
-  <path d="M 90.0,401.7 C 146.2,378.7 315.0,289.4 427.5,263.8 C 540.0,238.3 708.8,251.1 765.0,248.5 L 765.0,463.0 L 90.0,463.0 Z" fill="url(#g)"/>
-  <path d="M 90.0,401.7 C 146.2,378.7 315.0,289.4 427.5,263.8 C 540.0,238.3 708.8,251.1 765.0,248.5" fill="none" stroke="#dd4528" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#xkcdify)"/>
-  <circle cx="765.0" cy="248.5" r="5" fill="#dd4528" stroke="#0d1117" stroke-width="2" filter="url(#xkcdify)"/>
-<text x="735.0" y="240.5" fill="#dd4528" font-size="18" font-family="Handlee, cursive" font-weight="bold">14</text>
+  <path d="M 90.0,401.7 C 118.1,378.7 202.5,289.4 258.8,263.8 C 315.0,238.3 343.1,266.4 427.5,248.5 C 511.9,230.6 708.8,171.9 765.0,156.6 L 765.0,463.0 L 90.0,463.0 Z" fill="url(#g)"/>
+  <path d="M 90.0,401.7 C 118.1,378.7 202.5,289.4 258.8,263.8 C 315.0,238.3 343.1,266.4 427.5,248.5 C 511.9,230.6 708.8,171.9 765.0,156.6" fill="none" stroke="#dd4528" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#xkcdify)"/>
+  <circle cx="765.0" cy="156.6" r="5" fill="#dd4528" stroke="#0d1117" stroke-width="2" filter="url(#xkcdify)"/>
+<text x="735.0" y="148.6" fill="#dd4528" font-size="18" font-family="Handlee, cursive" font-weight="bold">20</text>
   <a href="https://github.com/carsteneu/mystarhistory" target="_blank" rel="noopener"><text x="763" y="527" font-size="13" font-family="Handlee, cursive" fill="#fff" text-anchor="end">Made with carsteneu/mystarhistory</text></a>
 </svg>
